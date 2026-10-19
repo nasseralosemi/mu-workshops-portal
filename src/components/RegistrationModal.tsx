@@ -308,7 +308,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
           <div className="p-3 bg-amber-50 rounded-xl border border-amber-200/80 text-xs text-amber-900 flex items-start gap-2.5">
             <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
             <span className="leading-relaxed">
-              عند التأكيد، يُسجل الطلب رسمياً في وحدة الإرشاد المهني والتوظيف، وتُصدر الكلية التطبيقية خطاب تكليف رسمي وشهادة مدرب معتمدة فور إتمام التنفيذ.
+              عند التأكيد، يُسجل الطلب رسمياً في وحدة الإرشاد المهني والتوظيف، وتُصدر الكلية التطبيقية خطاب شكر وتقدير رسمي وشهادة مدرب معتمدة فور إتمام التنفيذ.
             </span>
           </div>
 

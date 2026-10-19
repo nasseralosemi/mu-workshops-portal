@@ -90,7 +90,7 @@ export const HeroSection: React.FC<HeroSectionProps> = ({
               </div>
               <h3 className="text-sm font-bold text-white mb-1.5">توثيق وساعات معتمدة</h3>
               <p className="text-emerald-200/85 text-xs leading-relaxed">
-                إصدار خطابات شكر وتكليف رسمية معتمدة لعضو هيئة التدريس المنفذ للورشة.
+                إصدار خطابات شكر وتقدير رسمية معتمدة لعضو هيئة التدريس المنفذ للورشة.
               </p>
             </div>
           </div>

@@ -204,7 +204,7 @@ export default function App() {
     playNotificationChime();
     addToast({
       title: 'مرحباً بك في لوحة المشرف',
-      description: 'تم التحقق من رمز المرور بنجاح. يمكنك الآن الاطلاع على كشوفات التكليفات والاعتماد والتصدير.',
+      description: 'تم التحقق من رمز المرور بنجاح. يمكنك الآن الاطلاع على كشوفات التسجيل والاعتماد والتصدير.',
       type: 'success',
     });
   };
@@ -235,7 +235,7 @@ export default function App() {
       })
     );
     addToast({
-      title: 'تم إلغاء التكليف',
+      title: 'تم إلغاء التسجيل',
       description: 'تم تحرير الورشة وإعادتها لقائمة الورش المتاحة للتسجيل بنجاح.',
       type: 'warning',
     });

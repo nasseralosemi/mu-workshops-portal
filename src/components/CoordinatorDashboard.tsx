@@ -307,12 +307,12 @@ export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
                             {onCancelRegistration && (
                               <button
                                 onClick={() => {
-                                  if (window.confirm(`هل أنت متأكد من إلغاء قيد تكليف د. ${inst.doctorName}؟`)) {
+                                  if (window.confirm(`هل أنت متأكد من إلغاء قيد تسجيل د. ${inst.doctorName}؟`)) {
                                     onCancelRegistration(w.id);
                                   }
                                 }}
                                 className="p-1.5 text-red-500 hover:text-red-700 hover:bg-red-50 rounded-lg transition-colors cursor-pointer"
-                                title="إلغاء التكليف وإعادة الورشة للمتاح"
+                                title="إلغاء التسجيل وإعادة الورشة للمتاح"
                               >
                                 <Trash2 className="w-3.5 h-3.5" />
                               </button>

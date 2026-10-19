@@ -387,7 +387,7 @@ export function generateSingleFileHtml(): string {
 
       <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
         <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-md border border-emerald-200">سجل التكليفات والمقترحات</span>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-md border border-emerald-200">سجل التسجيلات والمقترحات</span>
           <h3 class="text-xl font-bold text-slate-900 mt-1">كشف أعضاء هيئة التدريس المسجلين</h3>
         </div>
 
@@ -566,7 +566,7 @@ export function generateSingleFileHtml(): string {
 
         <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-800 flex items-start gap-2">
           <i class="fa-solid fa-bell text-amber-600 mt-0.5"></i>
-          <span>عند التأكيد، سيتم توثيق بياناتكم رسمياً وإشعار منسق وحدة الإرشاد المهني بالكلية التطبيقية لمباشرة إجراءات الاعتماد وإصدار خطاب التكليف.</span>
+          <span>عند التأكيد، سيتم توثيق بياناتكم رسمياً وإشعار منسق وحدة الإرشاد المهني بالكلية التطبيقية لمباشرة إجراءات الاعتماد وإصدار خطاب الشكر والتقدير وشهادة المدرب.</span>
         </div>
 
         <div class="pt-2 flex items-center justify-end gap-3">
