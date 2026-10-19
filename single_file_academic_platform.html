@@ -1,0 +1,1262 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>منصة تنسيق الورش التدريبية والإرشادية - الكلية التطبيقية بجامعة المجمعة</title>
+  <meta name="description" content="منصة التسجيل وتنسيق الورش التدريبية والإرشادية - وحدة الإرشاد المهني والتوظيف بالكلية التطبيقية بجامعة المجمعة الخطة الاستراتيجية 2025-2030">
+  <!-- Google Fonts: Cairo & IBM Plex Sans Arabic -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Cairo', 'IBM Plex Sans Arabic', 'sans-serif'],
+          },
+          colors: {
+            univ: {
+              green: '#064e3b',
+              emerald: '#047857',
+              gold: '#d97706',
+              lightgold: '#fef3c7',
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    body { font-family: 'Cairo', 'IBM Plex Sans Arabic', sans-serif; }
+    .gold-gradient { background: linear-gradient(135deg, #b45309 0%, #d97706 50%, #f59e0b 100%); }
+    .univ-gradient { background: linear-gradient(135deg, #064e3b 0%, #065f46 60%, #047857 100%); }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #f1f5f9; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #047857; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Header: Cleaned Navigation, Wordmark on Right, Green Admin Login on Left -->
+  <header class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
+      <!-- Zone 1: Official University Wordmark -->
+      <a href="#overview" class="flex items-center gap-3 shrink-0">
+        <div class="w-11 h-11 rounded-xl univ-gradient flex items-center justify-center text-white shadow-sm ring-1 ring-emerald-900/10">
+          <i class="fa-solid fa-graduation-cap text-xl text-amber-300"></i>
+        </div>
+        <div class="leading-tight">
+          <span class="text-lg font-bold text-slate-900 tracking-tight whitespace-nowrap block">جامعة المجمعة</span>
+          <span class="text-xs text-emerald-800 font-semibold whitespace-nowrap block">الكلية التطبيقية · وحدة الإرشاد المهني والتوظيف</span>
+        </div>
+      </a>
+
+      <!-- Zone 2: Green Admin Login Button (No other nav links) -->
+      <div class="flex items-center gap-2.5 shrink-0" id="headerAdminZone">
+        <button onclick="openAdminLoginModal()" id="btnHeaderAdminLogin" class="inline-flex items-center gap-2 px-4 py-2.5 text-xs font-bold text-white bg-emerald-800 hover:bg-emerald-900 active:bg-emerald-950 rounded-xl shadow-xs transition-colors whitespace-nowrap shrink-0 cursor-pointer border border-emerald-700/50" title="دخول المشرفين لوحدة الإرشاد المهني والتوظيف">
+          <i class="fa-solid fa-lock text-amber-300 text-xs"></i>
+          <span>دخول المشرف</span>
+        </button>
+        <div id="adminLoggedInControls" class="hidden flex items-center gap-2">
+          <button onclick="toggleAdminDashboardView()" id="btnToggleDashboard" class="inline-flex items-center gap-2 px-3.5 py-2 text-xs font-bold rounded-xl shadow-xs transition-colors whitespace-nowrap cursor-pointer bg-emerald-800 hover:bg-emerald-900 text-white">
+            <i class="fa-solid fa-shield-halved text-amber-300"></i>
+            <span id="btnToggleDashboardText">لوحة المشرف</span>
+          </button>
+          <button onclick="logoutAdmin()" class="inline-flex items-center gap-1 px-3 py-2 text-xs font-semibold text-red-700 bg-red-50 hover:bg-red-100 border border-red-200 rounded-xl transition-colors cursor-pointer whitespace-nowrap" title="تسجيل الخروج">
+            <i class="fa-solid fa-arrow-right-from-bracket"></i>
+            <span>خروج</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Hero Section: Portal Title directly flush above Box 1 (الجدارات وسوق العمل) and 4 Pillars Grid -->
+  <section id="overview" class="relative univ-gradient text-white pt-14 pb-16 overflow-hidden">
+    <div class="absolute inset-0 opacity-15 pointer-events-none">
+      <div class="absolute -right-24 -top-24 w-96 h-96 rounded-full bg-emerald-400 blur-3xl"></div>
+      <div class="absolute -left-24 -bottom-24 w-96 h-96 rounded-full bg-amber-400 blur-3xl"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <!-- Right-aligned Header Text Block - Starts flush vertically above Box 1 (الجدارات وسوق العمل) -->
+      <div class="w-full text-right mb-10">
+        <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-900/80 border border-emerald-500/30 text-amber-300 text-xs font-semibold mb-4">
+          <i class="fa-solid fa-compass"></i>
+          <span>الخطة الاستراتيجية لجامعة المجمعة 2025-2030 · برنامج تنمية القدرات البشرية</span>
+        </div>
+
+        <h1 class="text-2xl sm:text-3xl lg:text-4xl xl:text-5xl font-black text-white leading-tight tracking-tight mb-2.5">
+          بوابة التسجيل الفصلي وتنسيق الورش التدريبية والإرشادية
+        </h1>
+
+        <p class="text-amber-300 font-bold text-sm sm:text-base mb-3">
+          وحدة الإرشاد المهني والتوظيف بالكلية التطبيقية بجامعة المجمعة
+        </p>
+
+        <p class="text-emerald-100/95 text-xs sm:text-sm md:text-base leading-relaxed max-w-4xl font-normal">
+          بوابة أكاديمية مخصصة لأصحاب السعادة أعضاء هيئة التدريس والمدربين المعتمدين لتسجيل وتنسيق تقديم الورش التدريبية والإرشادية للفصل الدراسي الحالي، بما يعزز جدارات طلبة برامج الكلية العشرة ويسهم في جاهزيتهم لسوق العمل التنافسي وفق مستهدفات رؤية المملكة 2030.
+        </p>
+      </div>
+
+      <!-- 4 Strategic Pillars - Balanced Full-Width Grid starting with "الجدارات وسوق العمل" -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-10 w-full">
+        <!-- Pillar 1: الجدارات وسوق العمل -->
+        <div class="bg-emerald-900/40 border border-emerald-600/30 rounded-2xl p-5 flex flex-col justify-between hover:border-emerald-500/50 transition-colors">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center mb-3">
+              <i class="fa-solid fa-bullseye text-lg"></i>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1.5">الجدارات وسوق العمل</h3>
+            <p className="text-emerald-200/85 text-xs leading-relaxed">
+              مواءمة تدريبية مباشرة مع احتياجات القطاعات الواعدة ومستهدفات رؤية المملكة 2030.
+            </p>
+          </div>
+        </div>
+
+        <!-- Pillar 2: المهارات الناعمة والجاهزية -->
+        <div class="bg-emerald-900/40 border border-emerald-600/30 rounded-2xl p-5 flex flex-col justify-between hover:border-emerald-500/50 transition-colors">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center mb-3">
+              <i class="fa-solid fa-users text-lg"></i>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1.5">المهارات الناعمة والجاهزية</h3>
+            <p class="text-emerald-200/85 text-xs leading-relaxed">
+              صقل مهارات التواصل، المقابلات الشخصية، السيرة الذاتية، والعمل الجماعي للطلبة.
+            </p>
+          </div>
+        </div>
+
+        <!-- Pillar 3: التنفيذ (حضوري / عن بعد) -->
+        <div class="bg-emerald-900/40 border border-emerald-600/30 rounded-2xl p-5 flex flex-col justify-between hover:border-emerald-500/50 transition-colors">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center mb-3">
+              <i class="fa-solid fa-laptop text-lg"></i>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1.5">التنفيذ (حضوري / عن بعد)</h3>
+            <p class="text-emerald-200/85 text-xs leading-relaxed">
+              مرونة كاملة في تقديم الورش بالقاعات الذكية بالكلية أو عن بعد عبر المنصات المعتمدة.
+            </p>
+          </div>
+        </div>
+
+        <!-- Pillar 4: توثيق وساعات معتمدة -->
+        <div class="bg-emerald-900/40 border border-emerald-600/30 rounded-2xl p-5 flex flex-col justify-between hover:border-emerald-500/50 transition-colors">
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center mb-3">
+              <i class="fa-solid fa-file-signature text-lg"></i>
+            </div>
+            <h3 class="text-sm font-bold text-white mb-1.5">توثيق وساعات معتمدة</h3>
+            <p class="text-emerald-200/85 text-xs leading-relaxed">
+              إصدار خطابات شكر وتكليف رسمية معتمدة لعضو هيئة التدريس المنفذ للورشة.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Live KPI Metrics Strip -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 pt-8 border-t border-emerald-700/50 w-full">
+        <div class="bg-emerald-900/40 border border-emerald-700/40 rounded-xl p-4 text-center">
+          <span class="block text-2xl sm:text-3xl font-extrabold text-amber-300 font-mono tabular-nums">10</span>
+          <span class="text-xs text-emerald-200 mt-1 block">برامج تطبيقية معتمدة وموجهة</span>
+        </div>
+        <div class="bg-emerald-900/40 border border-emerald-700/40 rounded-xl p-4 text-center">
+          <span class="block text-2xl sm:text-3xl font-extrabold text-white font-mono tabular-nums" id="totalWorkshopsCount">20</span>
+          <span class="text-xs text-emerald-200 mt-1 block">ورشة إرشادية وتدريبية معتمدة</span>
+        </div>
+        <div class="bg-emerald-900/40 border border-emerald-700/40 rounded-xl p-4 text-center">
+          <span class="block text-2xl sm:text-3xl font-extrabold text-amber-300 font-mono tabular-nums" id="registeredCountStat">2</span>
+          <span class="text-xs text-emerald-200 mt-1 block">ورش تم تسجيل كادر لتنفيذها</span>
+        </div>
+        <div class="bg-emerald-900/40 border border-emerald-700/40 rounded-xl p-4 text-center">
+          <span class="block text-2xl sm:text-3xl font-extrabold text-white font-mono tabular-nums" id="proposalsCountStat">2</span>
+          <span class="text-xs text-emerald-200 mt-1 block">مقترحات جديدة قيد المراجعة</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 3: The 10 Academic Programs Grid -->
+  <section id="programs" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+    <div class="text-center max-w-3xl mx-auto mb-12">
+      <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-md border border-emerald-200">الربط والتكامل الأكاديمي</span>
+      <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-3">الأقسام والبرامج الأكاديمية العشرة للكلية التطبيقية</h2>
+      <p class="text-slate-600 text-sm sm:text-base mt-2">
+        صُممت الخطة التدريبية لتغطي تخصصات وبرامج الكلية العشرة، لربط المخرجات التعليمية بالجدارات الوظيفية والشهادات الاحترافية. اضغط على أي برنامج لتصفية ورشه مباشرة.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4" id="programsGridContainer"></div>
+  </section>
+
+  <!-- Section 4: Interactive Workshops Catalog & Filters -->
+  <section id="workshops" class="py-16 bg-white border-y border-slate-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-8">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-md border border-emerald-200">دليل الورش المعتمدة</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 mt-2">ورش العمل والبرامج الإرشادية المتاحة للتسجيل والتنفيذ</h2>
+          <p class="text-slate-600 text-sm mt-1">تفضل باختيار الورشة التدريبية التي ترغب في تولي تنفيذها وإثرائها بخبرتك الأكاديمية والمهنية.</p>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <span class="text-xs text-slate-500 font-medium" id="matchingWorkshopsCount">عرض 20 ورشة</span>
+          <button onclick="resetFilters()" class="text-xs text-emerald-800 font-semibold hover:underline flex items-center gap-1 cursor-pointer">
+            <i class="fa-solid fa-arrow-rotate-right"></i>
+            <span>إعادة تعيين الفلاتر</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters Bar -->
+      <div class="bg-slate-50 border border-slate-200 rounded-2xl p-4 sm:p-5 mb-8">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">البحث السريع (الاسم، المحاور)</label>
+            <div class="relative">
+              <input type="text" id="searchInput" oninput="filterWorkshops()" placeholder="ابحث باسم الورشة أو المحور..." class="w-full bg-white border border-slate-300 rounded-lg pl-3 pr-9 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+              <i class="fa-solid fa-magnifying-glass absolute right-3 top-3 text-slate-400 text-xs"></i>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">البرنامج الأكاديمي</label>
+            <select id="programFilter" onchange="filterWorkshops()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+              <option value="all">كافة البرامج الأكاديمية العشرة</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">الفصل الدراسي</label>
+            <select id="semesterFilter" onchange="filterWorkshops()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+              <option value="all">جميع الفصول الدراسية</option>
+              <option value="الفصل الأول">الفصل الدراسي الأول</option>
+              <option value="الفصل الثاني">الفصل الدراسي الثاني</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">نمط التنفيذ</label>
+            <select id="modeFilter" onchange="filterWorkshops()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+              <option value="all">كافة الأنماط</option>
+              <option value="حضوري">حضوري</option>
+              <option value="عن بعد">عن بعد</option>
+            </select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1.5">حالة تسجيل التنفيذ</label>
+            <select id="statusFilter" onchange="filterWorkshops()" class="w-full bg-white border border-slate-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+              <option value="all">كافة الورش</option>
+              <option value="available">متاحة للتسجيل</option>
+              <option value="registered">مغلقة (تم حجزها)</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <!-- Workshops Grid Container -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="workshopsGridContainer"></div>
+    </div>
+  </section>
+
+  <!-- Section 5: Custom Workshop Proposal Form (اقترح ورشة عمل جديدة) -->
+  <section id="propose" class="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+    <div class="bg-gradient-to-br from-emerald-950 via-emerald-900 to-slate-900 rounded-3xl text-white shadow-xl overflow-hidden border border-emerald-700/40">
+      <div class="grid grid-cols-1 lg:grid-cols-12">
+        <!-- Sidebar Info -->
+        <div class="lg:col-span-4 p-8 sm:p-10 bg-emerald-950/60 flex flex-col justify-between border-b lg:border-b-0 lg:border-l border-emerald-800/40">
+          <div>
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-semibold mb-4">
+              <i class="fa-solid fa-hand-sparkles"></i>
+              <span>مبادرة أعضاء هيئة التدريس والخبراء</span>
+            </div>
+            <h3 class="text-2xl font-bold mb-3">اقترح ورشة عمل تدريبية جديدة</h3>
+            <p class="text-emerald-100/90 text-xs sm:text-sm leading-relaxed mb-6">
+              نرحب باقتراحات ومبادرات أصحاب السعادة أعضاء هيئة التدريس لتقديم ورش عمل تخصصية نوعية غير مدرجة في الدليل، تتوافق مع خبراتهم البحثية ومجالاتهم المهنية الدقيقة بما يخدم طلبة الكلية التطبيقية.
+            </p>
+
+            <div class="space-y-4 text-xs text-emerald-200">
+              <div class="flex items-start gap-3">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <span>اعتماد رسمي وساعات تدريبية موثقة من الكلية</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <span>تجهيز القاعات الذكية والمختبرات والدعم اللوجستي</span>
+              </div>
+              <div class="flex items-start gap-3">
+                <i class="fa-solid fa-circle-check text-amber-400 mt-1"></i>
+                <span>شهادات معتمدة ومتابعة جدارات المتدربين</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 pt-6 border-t border-emerald-800/60 text-xs text-emerald-300">
+            <span>تنسيق ومتابعة وحدة الإرشاد المهني: </span>
+            <span class="font-mono text-amber-300 block mt-1">alarshadalmhani@gmail.com</span>
+          </div>
+        </div>
+
+        <!-- Form Fields -->
+        <div class="lg:col-span-8 p-8 sm:p-10 bg-slate-900/40">
+          <form id="customProposalForm" onsubmit="submitCustomProposal(event)" class="space-y-5">
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-xs font-semibold text-emerald-200 mb-1.5">اسم عضو هيئة التدريس / المدرب *</label>
+                <input type="text" name="facultyName" required placeholder="سعادة د. / أ." class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-emerald-200 mb-1.5">الرتبة الأكاديمية *</label>
+                <select name="academicRank" required class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                  <option value="أستاذ دكتور (Professor)">أستاذ دكتور (Professor)</option>
+                  <option value="أستاذ مشارك">أستاذ مشارك</option>
+                  <option value="أستاذ مساعد" selected>أستاذ مساعد</option>
+                  <option value="محاضر">محاضر</option>
+                  <option value="مدرب / خبير معتمد">مدرب / خبير مهني معتمد</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              <div>
+                <label class="block text-xs font-semibold text-emerald-200 mb-1.5">القسم الأكاديمي المستهدف *</label>
+                <select name="department" id="proposalDeptSelect" required class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none"></select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-emerald-200 mb-1.5">البريد الإلكتروني الجامعي *</label>
+                <input type="email" name="email" required placeholder="example@mu.edu.sa" class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none" dir="ltr">
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-emerald-200 mb-1.5">رقم الجوال للتواصل والتنسيق *</label>
+                <input type="tel" name="phone" required placeholder="05xxxxxxxx" dir="ltr" class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none text-right">
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-5">
+              <div class="sm:col-span-2">
+                <label class="block text-xs font-semibold text-emerald-200 mb-1.5">عنوان الورشة التدريبية المقترحة *</label>
+                <input type="text" name="workshopTitle" required placeholder="مثال: تطبيقات النماذج اللغوية في أتمتة الأعمال..." class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-emerald-200 mb-1.5">الفصل الدراسي المقترح *</label>
+                <select name="semester" required class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                  <option value="الفصل الأول">الفصل الدراسي الأول</option>
+                  <option value="الفصل الثاني">الفصل الدراسي الثاني</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+              <div>
+                <label class="block text-xs font-semibold text-emerald-200 mb-1.5">نمط التنفيذ المفضل *</label>
+                <select name="deliveryMode" required class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                  <option value="حضوري" selected>حضوري</option>
+                  <option value="عن بعد">عن بعد</option>
+                </select>
+              </div>
+
+              <div>
+                <label class="block text-xs font-semibold text-emerald-200 mb-1.5">الجمهور المستهدف ومستوى الجدارات *</label>
+                <input type="text" name="targetAudience" required placeholder="مثال: طلاب الدبلوم، المتوقع تخرجهم، الخريجون..." class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-emerald-200 mb-1.5">المحاور الرئيسية ومخرجات التعلم المتوقعة *</label>
+              <textarea name="topics" required rows="3" placeholder="أوجز أهم 3 إلى 5 محاور معرفية وتطبيقية ستغطيها الورشة..." class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none"></textarea>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-emerald-200 mb-1.5">متطلبات لوجستية أو برمجية خاصة (اختياري)</label>
+              <input type="text" name="specialRequirements" placeholder="مثال: تثبيت برمجية معينة، قاعة مجهزة بأجهزة ماك، جهاز عرض..." class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+            </div>
+
+            <div class="pt-2 flex items-center justify-between">
+              <span class="text-xs text-emerald-400/80">سيتم إرسال إشعار فوري إلى وحدة الإرشاد المهني</span>
+              <button type="submit" id="proposalSubmitBtn" class="px-6 py-3 bg-amber-400 hover:bg-amber-300 text-slate-900 font-bold text-xs rounded-xl shadow-md transition-all inline-flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-paper-plane"></i>
+                <span>إرسال مقترح الورشة واعتماده</span>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6: Secret Internal Supervisor Dashboard (Unlocked via Passcode) -->
+  <section id="registrations" class="py-16 bg-slate-100 border-t border-slate-200 hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-gradient-to-r from-emerald-950 via-emerald-900 to-slate-900 rounded-3xl p-6 sm:p-8 text-white shadow-xl border border-emerald-700/40 mb-8">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-xl bg-amber-400 text-slate-950 flex items-center justify-center font-bold text-lg">
+              <i class="fa-solid fa-shield-halved"></i>
+            </div>
+            <div>
+              <h2 class="text-xl font-bold">لوحة تحكم وتنسيق الورش (بوابة المشرف)</h2>
+              <p class="text-xs text-emerald-200">وحدة الإرشاد المهني والتوظيف بالكلية التطبيقية</p>
+            </div>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="lockSupervisorPortal()" class="px-3 py-1.5 bg-red-500/20 hover:bg-red-500/30 text-red-200 text-xs rounded-lg transition-colors cursor-pointer">
+              <i class="fa-solid fa-lock ml-1"></i> قفل الجلسة (خروج)
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-emerald-800 bg-emerald-50 px-3 py-1 rounded-md border border-emerald-200">سجل التكليفات والمقترحات</span>
+          <h3 class="text-xl font-bold text-slate-900 mt-1">كشف أعضاء هيئة التدريس المسجلين</h3>
+        </div>
+
+        <div class="flex items-center gap-3">
+          <button onclick="exportToCsv()" class="px-4 py-2 text-xs font-bold text-slate-700 bg-white border border-slate-300 rounded-xl shadow-xs hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-file-excel text-emerald-600"></i>
+            <span>تصدير إلى Excel/CSV</span>
+          </button>
+          <button onclick="window.print()" class="px-4 py-2 text-xs font-bold text-slate-700 bg-white border border-slate-300 rounded-xl shadow-xs hover:bg-slate-50 transition-colors inline-flex items-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-print text-slate-600"></i>
+            <span>طباعة الكشف الرسمي</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-xs overflow-hidden">
+        <div class="overflow-x-auto">
+          <table class="w-full text-right text-xs">
+            <thead class="bg-slate-50 text-slate-700 uppercase border-b border-slate-200 font-bold">
+              <tr>
+                <th class="p-3.5">رمز التوثيق</th>
+                <th class="p-3.5">الورشة التدريبية</th>
+                <th class="p-3.5">عضو هيئة التدريس</th>
+                <th class="p-3.5">الرتبة والقسم</th>
+                <th class="p-3.5">وسيلة التواصل</th>
+                <th class="p-3.5">الموعد والتنفيذ</th>
+                <th class="p-3.5 text-center">الحالة</th>
+              </tr>
+            </thead>
+            <tbody id="registeredTableBody" class="divide-y divide-slate-100"></tbody>
+          </table>
+        </div>
+        <div id="emptyTableNotice" class="p-8 text-center text-slate-400 text-xs hidden">
+          <i class="fa-solid fa-folder-open text-2xl mb-2 text-slate-300 block"></i>
+          لا توجد ورش مسجلة حتى الآن.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Admin Login Modal Pop-up -->
+  <div id="adminLoginModal" class="fixed inset-0 z-50 hidden bg-slate-950/70 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-md w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all my-8">
+      <div class="bg-gradient-to-r from-emerald-950 via-emerald-900 to-slate-900 p-6 text-white flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-amber-400/20 text-amber-300 flex items-center justify-center">
+            <i class="fa-solid fa-lock text-lg"></i>
+          </div>
+          <div>
+            <h3 class="text-base font-bold">بوابة دخول المشرفين</h3>
+            <p class="text-xs text-emerald-200">وحدة الإرشاد المهني والتوظيف</p>
+          </div>
+        </div>
+        <button onclick="closeAdminLoginModal()" class="text-emerald-300 hover:text-white p-2 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <form id="adminLoginForm" onsubmit="handleAdminLoginSubmit(event)" class="p-6 space-y-4">
+        <div class="p-3.5 bg-emerald-50 rounded-xl border border-emerald-100 text-xs text-emerald-900">
+          هذه البوابة مخصصة لمشرفي وحدة الإرشاد المهني بالكلية التطبيقية للاطلاع على السجلات والاعتماد والتصدير المباشر.
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1.5">رمز المرور السري للمشرف</label>
+          <input type="password" id="adminPasscodeInput" required placeholder="أدخل رمز المرور..." class="w-full border border-slate-300 rounded-xl px-4 py-2.5 text-xs text-slate-900 focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+          <p class="text-[11px] text-slate-500 mt-1.5 flex items-center justify-between">
+            <span>الرمز المعتمد لوحدة الإرشاد:</span>
+            <span class="font-mono text-emerald-800 font-bold bg-slate-100 px-2 py-0.5 rounded text-[11px]">2026</span>
+          </p>
+        </div>
+
+        <div id="adminLoginError" class="p-3 bg-red-50 border border-red-200 rounded-xl text-xs text-red-700 hidden">
+          رمز المرور غير صحيح. يرجى إدخال رمز المرور المعتمد (2026).
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-3">
+          <button type="button" onclick="closeAdminLoginModal()" class="px-4 py-2 text-xs font-semibold text-slate-600 hover:text-slate-800 cursor-pointer">
+            إلغاء
+          </button>
+          <button type="submit" class="px-6 py-2.5 bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs rounded-xl shadow-xs transition-all cursor-pointer">
+            دخول للوحة المشرف
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Registration Modal Pop-up -->
+  <div id="registrationModal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-xs flex items-center justify-center p-4 overflow-y-auto">
+    <div class="bg-white rounded-3xl max-w-2xl w-full shadow-2xl border border-slate-200 overflow-hidden transform transition-all my-8">
+      <div class="univ-gradient p-6 text-white flex items-center justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center text-amber-300">
+            <i class="fa-solid fa-clipboard-user text-xl"></i>
+          </div>
+          <div>
+            <h3 class="text-lg font-bold">تسجيل لتنفيذ ورشة تدريبية</h3>
+            <p class="text-xs text-emerald-100">تأكيد الرغبة الأكاديمية في تولي تقديم الورشة</p>
+          </div>
+        </div>
+        <button onclick="closeRegistrationModal()" class="text-emerald-200 hover:text-white p-2 cursor-pointer">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Workshop Header info inside modal -->
+      <div class="bg-emerald-50/70 border-b border-emerald-100 p-4">
+        <span class="text-xs text-emerald-800 font-semibold block" id="modalWorkshopProgram">برنامج علوم الحاسب</span>
+        <h4 class="text-sm font-bold text-slate-900 mt-0.5" id="modalWorkshopTitle">عنوان الورشة</h4>
+        <div class="flex flex-wrap items-center gap-3 text-xs text-slate-500 mt-2">
+          <span id="modalWorkshopSchedule"><i class="fa-regular fa-clock ml-1"></i> الموعد المقترح</span>
+          <span>·</span>
+          <span id="modalWorkshopMode"><i class="fa-solid fa-location-dot ml-1"></i> القاعة / المنصة</span>
+        </div>
+      </div>
+
+      <!-- Registration Form -->
+      <form id="workshopRegistrationForm" onsubmit="submitWorkshopRegistration(event)" class="p-6 space-y-4">
+        <input type="hidden" id="modalWorkshopId" name="workshopId">
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">اسم عضو هيئة التدريس / الدكتور *</label>
+            <input type="text" id="regDoctorName" required placeholder="سعادة د. / أ." class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">الرتبة الأكاديمية *</label>
+            <select id="regAcademicRank" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+              <option value="أستاذ دكتور (Professor)">أستاذ دكتور (Professor)</option>
+              <option value="أستاذ مشارك">أستاذ مشارك</option>
+              <option value="أستاذ مساعد" selected>أستاذ مساعد</option>
+              <option value="محاضر">محاضر</option>
+              <option value="مدرب / خبير معتمد">مدرب / خبير معتمد</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">القسم الأكاديمي *</label>
+            <select id="regDepartmentSelect" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none"></select>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">البريد الإلكتروني الجامعي *</label>
+            <input type="email" id="regEmail" required placeholder="example@mu.edu.sa" class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none" dir="ltr">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">رقم الجوال للتنسيق *</label>
+            <input type="tel" id="regPhone" required placeholder="05xxxxxxxx" dir="ltr" class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none text-right">
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">تأكيد الموعد والتوقيت *</label>
+            <input type="text" id="regConfirmedDate" required placeholder="مناسب وفق الموعد المقترح، أو تحديد بديل" class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-slate-700 mb-1">نمط التنفيذ المفضل *</label>
+            <select id="regDeliveryMode" required class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+              <option value="حضوري" selected>حضوري</option>
+              <option value="عن بعد">عن بعد</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold text-slate-700 mb-1">ملاحظات أو تجهيزات خاصة (اختياري)</label>
+          <input type="text" id="regNotes" placeholder="أي برمجيات محددة، عدد متدربين مستهدف، إلخ" class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+        </div>
+
+        <div class="p-3 bg-amber-50 rounded-xl border border-amber-200 text-xs text-amber-800 flex items-start gap-2">
+          <i class="fa-solid fa-bell text-amber-600 mt-0.5"></i>
+          <span>عند التأكيد، سيتم توثيق بياناتكم رسمياً وإشعار منسق وحدة الإرشاد المهني بالكلية التطبيقية لمباشرة إجراءات الاعتماد وإصدار خطاب التكليف.</span>
+        </div>
+
+        <div class="pt-2 flex items-center justify-end gap-3">
+          <button type="button" onclick="closeRegistrationModal()" class="px-4 py-2.5 text-xs font-semibold text-slate-600 hover:text-slate-800 cursor-pointer">
+            إلغاء
+          </button>
+          <button type="submit" id="regSubmitBtn" class="px-6 py-2.5 bg-emerald-800 hover:bg-emerald-900 text-white font-bold text-xs rounded-xl shadow-sm transition-all inline-flex items-center gap-2 cursor-pointer">
+            <i class="fa-solid fa-check"></i>
+            <span>تأكيد تسجيل تنفيذ الورشة</span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Container -->
+  <div id="toastContainer" class="fixed bottom-6 left-6 z-50 flex flex-col gap-3 pointer-events-none max-w-sm w-full"></div>
+
+  <!-- Footer with Discreet Admin Portal Login Link -->
+  <footer class="mt-auto bg-slate-900 text-slate-400 py-12 text-xs border-t border-slate-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col sm:flex-row items-center justify-between gap-6 pb-8 border-b border-slate-800">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-emerald-800 flex items-center justify-center text-amber-300 font-bold">
+            <i class="fa-solid fa-graduation-cap"></i>
+          </div>
+          <div>
+            <span class="text-white font-bold block text-sm">جامعة المجمعة · الكلية التطبيقية</span>
+            <span>وحدة الإرشاد المهني والتوظيف · الخطة الاستراتيجية 2025-2030</span>
+          </div>
+        </div>
+
+        <div class="text-center sm:text-left text-slate-500">
+          <p>جميع الحقوق محفوظة © جامعة المجمعة 1447هـ / 2026م</p>
+          <p class="mt-1 text-slate-400">للتواصل والتنسيق: alarshadalmhani@gmail.com</p>
+        </div>
+      </div>
+
+      <!-- Bottom Bar without admin link -->
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px]">
+        <p>البوابة مخصصة لأصحاب السعادة أعضاء هيئة التدريس والطلبة بالكلية التطبيقية.</p>
+        <p class="text-slate-500">بوابة التنسيق والتسجيل الفصلي المباشر</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Application Logic Script -->
+  <script>
+    const PROGRAMS = [
+      { id: 'cs-prog', name: 'البرمجة وعلوم الحاسب', icon: 'fa-solid fa-code', shortDesc: 'بناء البرمجيات وهندسة النظم وحلول السحابة وأمن المعلومات للقطاعات التقنية.' },
+      { id: 'data-ai', name: 'تحليل البيانات والذكاء الاصطناعي', icon: 'fa-solid fa-brain', shortDesc: 'استخراج الرؤى الذكية وتوظيف نماذج التعلم الآلي والبيانات الضخمة لدعم القرار.' },
+      { id: 'mobile-app', name: 'تطوير تطبيقات الأجهزة الذكية', icon: 'fa-solid fa-mobile-screen-button', shortDesc: 'تصميم وبرمجة تطبيقات الهواتف الذكية لنظامي iOS و Android وحلول النظم المدمجة.' },
+      { id: 'marketing', name: 'التسويق', icon: 'fa-solid fa-bullhorn', shortDesc: 'إدارة الحملات الرقمية وسلوك المستهلك والتسويق بالمحتوى وتحليلات النمو السوقي.' },
+      { id: 'tourism-hosp', name: 'إدارة السياحة والضيافة', icon: 'fa-solid fa-hotel', shortDesc: 'تأهيل الكفاءات لقيادة قطاع السياحة والفعاليات والضيافة وفق مستهدفات رؤية 2030.' },
+      { id: 'graphic-digital', name: 'التصميم الجرافيكي والوسائط الرقمية', icon: 'fa-solid fa-pen-nib', shortDesc: 'صناعة الهوية البصرية وتصميم تجربة وواجهة المستخدم (UI/UX) وإنتاج الوسائط المتعددة.' },
+      { id: 'logistics-sc', name: 'إدارة اللوجستيات وسلاسل الإمداد', icon: 'fa-solid fa-truck-fast', shortDesc: 'تخطيط العمليات اللوجستية وإدارة المخازن والمشتريات وتحسين شبكات التوزيع والتوصيل.' },
+      { id: 'hr', name: 'الموارد البشرية', icon: 'fa-solid fa-users-gear', shortDesc: 'استقطاب وتطوير المواهب وإدارة الأداء وقوانين العمل ولوائح الموارد البشرية السعودية.' },
+      { id: 'accounting-tax', name: 'المحاسبة والضرائب', icon: 'fa-solid fa-calculator', shortDesc: 'إعداد القوائم المالية، إدارة ضرائب القيمة المضافة وضريبة الدخل، والتدقيق والرقابة المالية.' },
+      { id: 'ecom-realestate', name: 'التجارة الإلكترونية وإدارة وتطوير العقار', icon: 'fa-solid fa-building-wheat', shortDesc: 'إدارة المتاجر والمنصات الرقمية والتسويق العقاري وتثمين وتطوير الأصول العقارية الحديثة.' }
+    ];
+
+    let WORKSHOPS = [
+      {
+        id: 'wrk-cs-01', code: 'CS-101', title: 'هندسة البرمجيات السحابية وبناء واجهات البرمجة RESTful APIs الحديثة',
+        programId: 'cs-prog', programName: 'البرمجة وعلوم الحاسب', semester: 'الفصل الأول',
+        targetAudience: 'طلاب الدبلوم والمتوقع تخرجهم في علوم الحاسب', defaultSchedule: 'الأسبوع الرابع - الثلاثاء والأربعاء (10:00 ص)',
+        mode: 'حضوري', location: 'معمل الحاسب المتقدم 102',
+        topics: ['مبادئ تصميم واجهات OpenAPI / Swagger', 'بناء خوادم Microservices باستخدام Express', 'تأمين نقاط النهاية عبر JWT', 'نشر التطبيقات على السحابة و Docker'],
+        instructor: { doctorName: 'سعادة د. عبد العزيز بن سعد الغامدي', academicRank: 'أستاذ مشارك', department: 'البرمجة وعلوم الحاسب', email: 'a.alghamdi@mu.edu.sa', phone: '0555123456', confirmedDate: 'الأسبوع الرابع - الثلاثاء 10:00 ص', deliveryMode: 'حضوري', registrationCode: 'MU-WRK-4819' }
+      },
+      {
+        id: 'wrk-cs-02', code: 'CS-102', title: 'أمن المعلومات وحماية التطبيقات والشبكات في بيئة العمل التقنية',
+        programId: 'cs-prog', programName: 'البرمجة وعلوم الحاسب', semester: 'الفصل الثاني',
+        targetAudience: 'كافة طلاب قسم البرمجة والمهتمين بالأمن السيبراني', defaultSchedule: 'الأسبوع السادس - الاثنين (09:00 ص)',
+        mode: 'حضوري', location: 'المدرج الرئيسي - الكلية التطبيقية',
+        topics: ['تحليل ثغرات OWASP Top 10', 'مبادئ Zero Trust Architecture', 'ضوابط الهيئة الوطنية للأمن السيبراني (NCA)']
+      },
+      {
+        id: 'wrk-data-01', code: 'DAI-201', title: 'لوحات القيادة التفاعلية وذكاء الأعمال باستخدام Microsoft Power BI',
+        programId: 'data-ai', programName: 'تحليل البيانات والذكاء الاصطناعي', semester: 'الفصل الأول',
+        targetAudience: 'طلاب برنامج تحليل البيانات والذكاء الاصطناعي', defaultSchedule: 'الأسبوع الخامس - الأربعاء (09:30 ص)',
+        mode: 'حضوري', location: 'مختبر ذكاء الأعمال 204',
+        topics: ['استيراد وتنظيف البيانات باستخدام Power Query', 'نماذج العلاقات وحساب المؤشرات بصيغ DAX', 'تصميم الرسوم البيانية التفاعلية والفلاتر']
+      },
+      {
+        id: 'wrk-data-02', code: 'DAI-202', title: 'تطبيقات الذكاء الاصطناعي التوليدي والتعلم الآلي في بيئات الأعمال',
+        programId: 'data-ai', programName: 'تحليل البيانات والذكاء الاصطناعي', semester: 'الفصل الثاني',
+        targetAudience: 'طلاب الذكاء الاصطناعي والتخصصات التطبيقية', defaultSchedule: 'الأسبوع الثامن - الثلاثاء (10:00 ص)',
+        mode: 'عن بعد', location: 'منصة التدريب الافتراضي Blackboard',
+        topics: ['نماذج اللغة الكبيرة LLMs', 'هندسة الأوامر المتقدمة Prompt Engineering', 'أخلاقيات استخدام الذكاء الاصطناعي']
+      },
+      {
+        id: 'wrk-mob-01', code: 'MOB-301', title: 'تطوير التطبيقات متعددة المنصات باستخدام Flutter و Dart من الصفر إلى النشر',
+        programId: 'mobile-app', programName: 'تطوير تطبيقات الأجهزة الذكية', semester: 'الفصل الأول',
+        targetAudience: 'طلاب برنامج تطوير تطبيقات الأجهزة الذكية', defaultSchedule: 'الأسبوع السابع - الخميس (09:00 ص)',
+        mode: 'حضوري', location: 'مختبر تطبيقات الهواتف 108',
+        topics: ['هيكلية Flutter وأساسيات لغة Dart', 'تصميم واجهات المستخدم المتجاوبة Material 3', 'الربط مع خدمات Firebase وتصدير التطبيق']
+      },
+      {
+        id: 'wrk-mkt-01', code: 'MKT-401', title: 'استراتيجيات التسويق الرقمي وإعلانات منصات التواصل الاجتماعي ومحركات البحث',
+        programId: 'marketing', programName: 'التسويق', semester: 'الفصل الأول',
+        targetAudience: 'طلاب برنامج التسويق والتجارة الإلكترونية', defaultSchedule: 'الأسبوع السادس - الأحد (10:00 ص)',
+        mode: 'حضوري', location: 'قاعة الابتكار والتسويق',
+        topics: ['قمع التسويق Marketing Funnel', 'إدارة حملات Google Ads و Meta Ads', 'مبادئ تحسين محركات البحث SEO', 'قياس العائد ROAS'],
+        instructor: { doctorName: 'سعادة د. نورة بنت فهد التميمي', academicRank: 'أستاذ مساعد', department: 'التسويق', email: 'n.altamimi@mu.edu.sa', phone: '0501239876', confirmedDate: 'الأسبوع السادس - الأحد 10:00 ص', deliveryMode: 'حضوري', registrationCode: 'MU-WRK-9204' }
+      },
+      {
+        id: 'wrk-tour-01', code: 'TRH-501', title: 'إدارة تجربة الضيف والتميز في تشغيل الفنادق والمنتجعات العالمية',
+        programId: 'tourism-hosp', programName: 'إدارة السياحة والضيافة', semester: 'الفصل الأول',
+        targetAudience: 'طلاب قسم إدارة السياحة والضيافة', defaultSchedule: 'الأسبوع الثامن - الأربعاء (10:00 ص)',
+        mode: 'حضوري', location: 'قاعة المحاكاة الفندقية بالكلية',
+        topics: ['معايير خدمة النزيل العالمية', 'أنظمة إدارة الممتلكات الفندقية PMS Opera', 'إدارة الإيرادات وتسعير الغرف']
+      },
+      {
+        id: 'wrk-grp-01', code: 'DES-601', title: 'تصميم تجربة وواجهة المستخدم (UI/UX) باستخدام أداة Figma الاحترافية',
+        programId: 'graphic-digital', programName: 'التصميم الجرافيكي والوسائط الرقمية', semester: 'الفصل الأول',
+        targetAudience: 'طلاب التصميم الجرافيكي وتطبيقات الهواتف', defaultSchedule: 'الأسبوع الخامس - الثلاثاء (09:00 ص)',
+        mode: 'حضوري', location: 'مختبر التصميم الرقمي 301',
+        topics: ['أبحاث المستخدم وإنشاء خرائط الرحلة', 'نظم التصميم Design Systems', 'النماذج التفاعلية الحية Prototypes']
+      },
+      {
+        id: 'wrk-log-01', code: 'LOG-701', title: 'تخطيط العمليات اللوجستية الحديثة وإدارة المستودعات الذكية',
+        programId: 'logistics-sc', programName: 'إدارة اللوجستيات وسلاسل الإمداد', semester: 'الفصل الأول',
+        targetAudience: 'طلاب إدارة اللوجستيات وسلاسل الإمداد', defaultSchedule: 'الأسبوع السابع - الأربعاء (09:30 ص)',
+        mode: 'حضوري', location: 'قاعة المحاكاة اللوجستية',
+        topics: ['أنظمة إدارة المستودعات الحديثة WMS', 'إدارة المخزون ونماذج حساب الكمية الاقتصادية EOQ', 'تطبيقات تتبع الشحنات RFID']
+      },
+      {
+        id: 'wrk-hr-01', code: 'HR-801', title: 'تطبيقات نظام العمل السعودي ولوائح الموارد البشرية ومنصة قوى',
+        programId: 'hr', programName: 'الموارد البشرية', semester: 'الفصل الأول',
+        targetAudience: 'طلاب برنامج الموارد البشرية وكافة الخريجين', defaultSchedule: 'الأسبوع الخامس - الاثنين (10:00 ص)',
+        mode: 'حضوري', location: 'قاعة التطوير الإداري',
+        topics: ['أحكام عقود العمل وفترات التجربة', 'إجراءات إنهاء العقود والمكافآت وفق المادتين 77 و 80', 'إدارة منصتي قوى ومُدد والتأمينات', 'نسب التوطين ونطاقات']
+      },
+      {
+        id: 'wrk-acc-01', code: 'ACC-901', title: 'ضريبة القيمة المضافة والفاتورة الإلكترونية وفق متطلبات (ZATCA)',
+        programId: 'accounting-tax', programName: 'المحاسبة والضرائب', semester: 'الفصل الأول',
+        targetAudience: 'طلاب برنامج المحاسبة والضرائب', defaultSchedule: 'الأسبوع السادس - الأحد (09:30 ص)',
+        mode: 'حضوري', location: 'معمل المحاسبة والأنظمة المالية 202',
+        topics: ['التوريدات الخاضعة والمعفاة والصفرية', 'تقديم الإقرار الضريبي وتفادي الغرامات', 'المرحلة الثانية للفوترة الإلكترونية (الربط والتكامل)']
+      },
+      {
+        id: 'wrk-ecom-01', code: 'ECR-1001', title: 'تأسيس وتشغيل المتاجر الإلكترونية المتكاملة وتفعيل بوابات الدفع والشحن',
+        programId: 'ecom-realestate', programName: 'التجارة الإلكترونية وإدارة وتطوير العقار', semester: 'الفصل الأول',
+        targetAudience: 'طلاب التجارة الإلكترونية والتسويق ورواد الأعمال', defaultSchedule: 'الأسبوع الخامس - الثلاثاء (09:30 ص)',
+        mode: 'حضوري', location: 'معمل التجارة الرقمية 105',
+        topics: ['إعداد المتاجر السحابية (سلة، زد)', 'ربط بوابات الدفع مدى، Apple Pay، تمارا', 'الربط اللوجستي وإدارة المرتجعات', 'نظام التجارة الإلكترونية السعودي']
+      },
+      {
+        id: 'wrk-ecom-02', code: 'ECR-1002', title: 'التسويق والوساطة العقارية واللوائح التنظيمية للهيئة العامة للعقار (رخصة فال)',
+        programId: 'ecom-realestate', programName: 'التجارة الإلكترونية وإدارة وتطوير العقار', semester: 'الفصل الثاني',
+        targetAudience: 'طلاب إدارة وتطوير العقار والمهتمون', defaultSchedule: 'الأسبوع السادس - الأربعاء (10:00 ص)',
+        mode: 'حضوري', location: 'المدرج الأكاديمي',
+        topics: ['نظام الوساطة العقارية الجديد واشتراطات الهيئة العامة للعقار', 'خطوات إصدار رخصة فال العقارية', 'التسويق الرقمي وجولات الواقع الافتراضي للعقارات']
+      }
+    ];
+
+    let PROPOSALS = [
+      {
+        id: 'prop-sample-1', proposalCode: 'MU-PROP-8371', facultyName: 'سعادة د. خالد بن محمد السعيد', academicRank: 'أستاذ مساعد',
+        department: 'تحليل البيانات والذكاء الاصطناعي', email: 'k.alsaeed@mu.edu.sa', phone: '0544882211',
+        workshopTitle: 'أتمتة العمليات التجارية باستخدام وكلاء الذكاء الاصطناعي AI Agents', semester: 'الفصل الثاني',
+        deliveryMode: 'حضوري', targetAudience: 'طلاب تحليل البيانات وعلوم الحاسب',
+        topics: 'مقدمة عن وكلاء الذكاء الاصطناعي المستقلين، بناء وكيل باستخدام LangChain، وربطه بقواعد البيانات والبريد.',
+        submittedAt: '17 أكتوبر 2026'
+      }
+    ];
+
+    let isSupervisorUnlocked = false;
+
+    function playChime() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(659.25, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(880, ctx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.08, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.45);
+      } catch (e) {}
+    }
+
+    function showToast(title, message, code) {
+      playChime();
+      const container = document.getElementById('toastContainer');
+      const toast = document.createElement('div');
+      toast.className = 'pointer-events-auto bg-slate-900 text-white rounded-2xl p-4 shadow-xl border border-emerald-500/30 flex items-start gap-3 transform transition-all duration-300';
+      toast.innerHTML = \`
+        <div class="w-8 h-8 rounded-full bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5">
+          <i class="fa-solid fa-check text-sm"></i>
+        </div>
+        <div class="flex-1">
+          <h4 class="text-xs font-bold text-white">\${title}</h4>
+          <p class="text-xs text-slate-300 mt-1 leading-relaxed">\${message}</p>
+          \${code ? \`
+            <div class="mt-2 pt-2 border-t border-slate-800 flex items-center justify-between text-xs">
+              <span class="text-slate-400">رمز التوثيق:</span>
+              <span class="font-mono text-amber-300 font-bold">\${code}</span>
+            </div>
+          \` : ''}
+        </div>
+        <button onclick="this.parentElement.remove()" class="text-slate-400 hover:text-white p-1 cursor-pointer">
+          <i class="fa-solid fa-xmark text-xs"></i>
+        </button>
+      \`;
+      container.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 300);
+      }, 7000);
+    }
+
+    function openAdminLoginModal() {
+      if (isSupervisorUnlocked) {
+        document.getElementById('registrations').scrollIntoView({ behavior: 'smooth' });
+        return;
+      }
+      document.getElementById('adminPasscodeInput').value = '';
+      document.getElementById('adminLoginError').classList.add('hidden');
+      document.getElementById('adminLoginModal').classList.remove('hidden');
+    }
+
+    function closeAdminLoginModal() {
+      document.getElementById('adminLoginModal').classList.add('hidden');
+    }
+
+    function handleAdminLoginSubmit(e) {
+      e.preventDefault();
+      const passcode = document.getElementById('adminPasscodeInput').value.trim();
+      if (passcode === '2026' || passcode.toLowerCase() === 'mu2026') {
+        isSupervisorUnlocked = true;
+        closeAdminLoginModal();
+        document.getElementById('registrations').classList.remove('hidden');
+        const headerLoginBtn = document.getElementById('btnHeaderAdminLogin');
+        const adminControls = document.getElementById('adminLoggedInControls');
+        if (headerLoginBtn) headerLoginBtn.classList.add('hidden');
+        if (adminControls) adminControls.classList.remove('hidden');
+        renderRegistrationsTable();
+        document.getElementById('registrations').scrollIntoView({ behavior: 'smooth' });
+        showToast('تم دخول المشرف بنجاح', 'مرحباً بك في لوحة التنسيق والاعتماد الأكاديمي لوحدة الإرشاد المهني.');
+      } else {
+        document.getElementById('adminLoginError').classList.remove('hidden');
+      }
+    }
+
+    function logoutAdmin() {
+      isSupervisorUnlocked = false;
+      document.getElementById('registrations').classList.add('hidden');
+      const headerLoginBtn = document.getElementById('btnHeaderAdminLogin');
+      const adminControls = document.getElementById('adminLoggedInControls');
+      if (headerLoginBtn) headerLoginBtn.classList.remove('hidden');
+      if (adminControls) adminControls.classList.add('hidden');
+      document.getElementById('overview').scrollIntoView({ behavior: 'smooth' });
+      showToast('تم تسجيل الخروج', 'تم قفل جلسة الإشراف والعودة للبوابة بنجاح.');
+    }
+
+    function lockSupervisorPortal() {
+      logoutAdmin();
+    }
+
+    function toggleAdminDashboardView() {
+      const reg = document.getElementById('registrations');
+      reg.scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function renderPrograms() {
+      const container = document.getElementById('programsGridContainer');
+      const filterSelect = document.getElementById('programFilter');
+      const proposalDeptSelect = document.getElementById('proposalDeptSelect');
+      const regDeptSelect = document.getElementById('regDepartmentSelect');
+
+      container.innerHTML = '';
+      PROGRAMS.forEach(prog => {
+        const opt1 = document.createElement('option');
+        opt1.value = prog.id;
+        opt1.textContent = prog.name;
+        filterSelect.appendChild(opt1);
+
+        const opt2 = document.createElement('option');
+        opt2.value = prog.name;
+        opt2.textContent = prog.name;
+        proposalDeptSelect.appendChild(opt2);
+
+        const opt3 = document.createElement('option');
+        opt3.value = prog.name;
+        opt3.textContent = prog.name;
+        regDeptSelect.appendChild(opt3);
+
+        const count = WORKSHOPS.filter(w => w.programId === prog.id).length;
+        const card = document.createElement('div');
+        card.className = 'group bg-white rounded-2xl p-4 border border-slate-200 hover:border-emerald-600 hover:shadow-md transition-all cursor-pointer flex flex-col justify-between';
+        card.onclick = () => selectProgram(prog.id);
+        card.innerHTML = \`
+          <div>
+            <div class="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-800 flex items-center justify-center text-lg mb-3 group-hover:bg-emerald-800 group-hover:text-amber-300 transition-colors">
+              <i class="\${prog.icon}"></i>
+            </div>
+            <h3 class="text-xs font-bold text-slate-900 group-hover:text-emerald-800 transition-colors leading-snug">\${prog.name}</h3>
+            <p class="text-slate-500 text-[11px] mt-1.5 line-clamp-2 leading-relaxed">\${prog.shortDesc}</p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-[11px]">
+            <span class="text-emerald-700 font-semibold">\${count} ورش معتمدة</span>
+            <i class="fa-solid fa-arrow-left text-slate-400 group-hover:text-emerald-700 transform group-hover:-translate-x-1 transition-all"></i>
+          </div>
+        \`;
+        container.appendChild(card);
+      });
+    }
+
+    function selectProgram(progId) {
+      document.getElementById('programFilter').value = progId;
+      filterWorkshops();
+      document.getElementById('workshops').scrollIntoView({ behavior: 'smooth' });
+    }
+
+    function renderWorkshops(list) {
+      const container = document.getElementById('workshopsGridContainer');
+      const countEl = document.getElementById('matchingWorkshopsCount');
+      countEl.textContent = \`عرض \${list.length} من أصل \${WORKSHOPS.length} ورشة\`;
+      container.innerHTML = '';
+
+      if (list.length === 0) {
+        container.innerHTML = \`
+          <div class="col-span-full py-12 text-center text-slate-400">
+            <i class="fa-solid fa-magnifying-glass text-3xl mb-3 text-slate-300 block"></i>
+            <p class="text-sm font-semibold">لم يتم العثور على ورش مطابقة لمعايير البحث الحالية.</p>
+            <button onclick="resetFilters()" class="mt-3 px-4 py-2 text-xs bg-emerald-800 text-white rounded-lg cursor-pointer">إعادة ضبط الفلاتر</button>
+          </div>
+        \`;
+        return;
+      }
+
+      list.forEach(w => {
+        const isRegistered = !!w.instructor;
+        const card = document.createElement('div');
+        card.className = \`bg-white rounded-2xl border \${isRegistered ? 'border-red-200 bg-red-50/20' : 'border-slate-200'} shadow-xs hover:shadow-md transition-all flex flex-col justify-between overflow-hidden relative\`;
+        card.innerHTML = \`
+          \${isRegistered ? \`
+            <div class="bg-red-600 text-white text-center py-2 px-4 text-xs font-black tracking-wide flex items-center justify-center gap-1.5 shadow-xs">
+              <i class="fa-solid fa-lock"></i>
+              <span>مغلقة - تم حجز هذه الورشة</span>
+            </div>
+          \` : ''}
+
+          <div class="p-5">
+            <div class="flex items-center gap-2 text-xs text-slate-500 mb-2">
+              <span class="font-semibold text-emerald-800">\${w.programName}</span>
+              <span>·</span>
+              <span>\${w.semester}</span>
+              <span>·</span>
+              <span class="font-mono">\${w.code}</span>
+            </div>
+
+            <h3 class="text-sm font-bold text-slate-900 leading-snug mb-2">\${w.title}</h3>
+
+            <div class="text-xs text-slate-500 mb-3 space-y-1">
+              <div><i class="fa-regular fa-clock text-slate-400 ml-1"></i> \${w.defaultSchedule}</div>
+              <div><i class="fa-solid fa-location-dot text-slate-400 ml-1"></i> \${w.location} (<span class="\${w.mode === 'حضوري' ? 'text-emerald-700 font-semibold' : 'text-blue-700 font-semibold'}">\${w.mode}</span>)</div>
+              <div><i class="fa-solid fa-graduation-cap text-slate-400 ml-1"></i> \${w.targetAudience}</div>
+            </div>
+
+            <div class="mt-3 pt-3 border-t border-slate-100">
+              <span class="text-[11px] font-semibold text-slate-700 block mb-1.5">المحاور الرئيسية:</span>
+              <ul class="text-[11px] text-slate-600 space-y-1 list-disc list-inside">
+                \${w.topics.slice(0, 3).map(t => \`<li class="truncate">\${t}</li>\`).join('')}
+              </ul>
+            </div>
+          </div>
+
+          <div class="p-4 \${isRegistered ? 'bg-red-50/50 border-t border-red-100' : 'bg-slate-50 border-t border-slate-100'} flex items-center justify-between gap-2">
+            \${isRegistered ? \`
+              <div class="text-xs text-slate-700 truncate">
+                <span class="block text-[11px] text-red-700 font-bold">محجوزة لتنفيذ:</span>
+                <span class="font-semibold text-slate-900 truncate block">\${w.instructor.doctorName}</span>
+              </div>
+              <button disabled class="px-4 py-2 bg-slate-200 text-slate-500 font-bold text-xs rounded-xl cursor-not-allowed flex items-center gap-1.5 whitespace-nowrap" title="هذه الورشة محجوزة ولا يمكن التسجيل فيها">
+                <i class="fa-solid fa-lock text-xs"></i>
+                <span>مغلقة - تم حجز هذه الورشة</span>
+              </button>
+            \` : \`
+              <span class="text-xs text-emerald-700 font-medium flex items-center gap-1.5">
+                <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
+                <span>متاحة لتسجيل التنفيذ</span>
+              </span>
+              <button onclick="openRegistrationModal('\${w.id}')" class="px-4 py-2 bg-emerald-800 hover:bg-emerald-900 text-white font-semibold text-xs rounded-xl shadow-xs transition-colors flex items-center gap-1.5 cursor-pointer">
+                <i class="fa-solid fa-user-plus text-amber-300"></i>
+                <span>تسجيل لتنفيذ هذه الورشة</span>
+              </button>
+            \`}
+          </div>
+        \`;
+        container.appendChild(card);
+      });
+    }
+
+    function filterWorkshops() {
+      const q = document.getElementById('searchInput').value.trim().toLowerCase();
+      const prog = document.getElementById('programFilter').value;
+      const sem = document.getElementById('semesterFilter').value;
+      const mode = document.getElementById('modeFilter') ? document.getElementById('modeFilter').value : 'all';
+      const st = document.getElementById('statusFilter').value;
+
+      const filtered = WORKSHOPS.filter(w => {
+        const matchesQuery = !q || w.title.toLowerCase().includes(q) || w.topics.some(t => t.toLowerCase().includes(q));
+        const matchesProg = prog === 'all' || w.programId === prog;
+        const matchesSem = sem === 'all' || w.semester === sem;
+        const matchesMode = mode === 'all' || w.mode === mode;
+        const matchesStatus = st === 'all' || (st === 'available' && !w.instructor) || (st === 'registered' && !!w.instructor);
+        return matchesQuery && matchesProg && matchesSem && matchesMode && matchesStatus;
+      });
+
+      renderWorkshops(filtered);
+    }
+
+    function resetFilters() {
+      document.getElementById('searchInput').value = '';
+      document.getElementById('programFilter').value = 'all';
+      document.getElementById('semesterFilter').value = 'all';
+      if (document.getElementById('modeFilter')) document.getElementById('modeFilter').value = 'all';
+      document.getElementById('statusFilter').value = 'all';
+      filterWorkshops();
+    }
+
+    function openRegistrationModal(workshopId) {
+      const w = WORKSHOPS.find(item => item.id === workshopId);
+      if (!w) return;
+
+      document.getElementById('modalWorkshopId').value = w.id;
+      document.getElementById('modalWorkshopTitle').textContent = w.title;
+      document.getElementById('modalWorkshopProgram').textContent = w.programName;
+      document.getElementById('modalWorkshopSchedule').innerHTML = '<i class="fa-regular fa-clock ml-1"></i> ' + w.defaultSchedule;
+      document.getElementById('modalWorkshopMode').innerHTML = '<i class="fa-solid fa-location-dot ml-1"></i> ' + w.location;
+      document.getElementById('regConfirmedDate').value = w.defaultSchedule;
+      document.getElementById('regDepartmentSelect').value = w.programName;
+
+      if (w.instructor) {
+        document.getElementById('regDoctorName').value = w.instructor.doctorName;
+        document.getElementById('regAcademicRank').value = w.instructor.academicRank;
+        document.getElementById('regEmail').value = w.instructor.email;
+        document.getElementById('regPhone').value = w.instructor.phone;
+        document.getElementById('regNotes').value = w.instructor.notes || '';
+      }
+
+      document.getElementById('registrationModal').classList.remove('hidden');
+    }
+
+    function closeRegistrationModal() {
+      document.getElementById('registrationModal').classList.add('hidden');
+    }
+
+    async function submitWorkshopRegistration(e) {
+      e.preventDefault();
+      const btn = document.getElementById('regSubmitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري التوثيق...';
+
+      const wId = document.getElementById('modalWorkshopId').value;
+      const w = WORKSHOPS.find(item => item.id === wId);
+      const docName = document.getElementById('regDoctorName').value.trim();
+      const rank = document.getElementById('regAcademicRank').value;
+      const dept = document.getElementById('regDepartmentSelect').value;
+      const email = document.getElementById('regEmail').value.trim();
+      const phone = document.getElementById('regPhone').value.trim();
+      const date = document.getElementById('regConfirmedDate').value.trim();
+      const mode = document.getElementById('regDeliveryMode').value;
+      const notes = document.getElementById('regNotes').value.trim();
+
+      const regCode = 'MU-WRK-' + Math.floor(1000 + Math.random() * 9000);
+
+      w.instructor = {
+        doctorName: docName,
+        academicRank: rank,
+        department: dept,
+        email: email,
+        phone: phone,
+        confirmedDate: date,
+        deliveryMode: mode,
+        notes: notes,
+        registeredAt: new Date().toLocaleDateString('ar-SA'),
+        registrationCode: regCode,
+      };
+
+      try {
+        await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            subject: 'تسجيل تنفيذ ورشة: ' + w.title,
+            doctorName: docName,
+            rank: rank,
+            dept: dept,
+            email: email,
+            phone: phone,
+            workshop: w.title,
+            registrationCode: regCode,
+            to_email: 'alarshadalmhani@gmail.com',
+          })
+        }).catch(() => null);
+      } catch (err) {}
+
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-check"></i> تأكيد تسجيل تنفيذ الورشة';
+      closeRegistrationModal();
+
+      updateStats();
+      filterWorkshops();
+      if (isSupervisorUnlocked) renderRegistrationsTable();
+      showToast('تم تسجيل تنفيذ الورشة بنجاح', \`تم توثيق رغبة سعادة د. \${docName} في تقديم ورشة (\${w.title}) وتزويد وحدة الإرشاد المهني بالبيانات.\`, regCode);
+    }
+
+    async function submitCustomProposal(e) {
+      e.preventDefault();
+      const btn = document.getElementById('proposalSubmitBtn');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> جاري الإرسال...';
+
+      const form = e.target;
+      const facultyName = form.facultyName.value.trim();
+      const academicRank = form.academicRank.value;
+      const dept = form.department.value;
+      const email = form.email.value.trim();
+      const phone = form.phone.value.trim();
+      const title = form.workshopTitle.value.trim();
+      const semester = form.semester.value;
+      const deliveryMode = form.deliveryMode.value;
+      const targetAudience = form.targetAudience.value.trim();
+      const topics = form.topics.value.trim();
+      const specialRequirements = form.specialRequirements.value.trim();
+
+      const code = 'MU-PROP-' + Math.floor(1000 + Math.random() * 9000);
+
+      const newProposal = {
+        id: 'prop-' + Date.now(),
+        proposalCode: code,
+        facultyName,
+        academicRank,
+        department: dept,
+        email,
+        phone,
+        workshopTitle: title,
+        semester,
+        deliveryMode,
+        targetAudience,
+        topics,
+        specialRequirements,
+        submittedAt: new Date().toLocaleDateString('ar-SA'),
+      };
+
+      PROPOSALS.push(newProposal);
+
+      try {
+        await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            subject: 'مقترح ورشة تدريبية جديدة: ' + title,
+            ...newProposal,
+            to_email: 'alarshadalmhani@gmail.com'
+          })
+        }).catch(() => null);
+      } catch (err) {}
+
+      form.reset();
+      btn.disabled = false;
+      btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال مقترح الورشة واعتماده';
+
+      if (isSupervisorUnlocked) renderRegistrationsTable();
+      showToast('تم إرسال المقترح بنجاح', \`شكراً سعادة د. \${facultyName}، تم توجيه مقترح ورشة (\${title}) إلى منسق الوحدة للاعتماد والجدولة.\`, code);
+    }
+
+    function renderRegistrationsTable() {
+      const tbody = document.getElementById('registeredTableBody');
+      const emptyNotice = document.getElementById('emptyTableNotice');
+      tbody.innerHTML = '';
+
+      const registeredWorkshops = WORKSHOPS.filter(w => !!w.instructor);
+      const totalItems = registeredWorkshops.length + PROPOSALS.length;
+
+      if (totalItems === 0) {
+        emptyNotice.classList.remove('hidden');
+        return;
+      }
+      emptyNotice.classList.add('hidden');
+
+      registeredWorkshops.forEach(w => {
+        const inst = w.instructor;
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-slate-50 transition-colors';
+        tr.innerHTML = \`
+          <td class="p-3.5 font-mono text-emerald-800 font-bold">\${inst.registrationCode}</td>
+          <td class="p-3.5 font-semibold text-slate-900 max-w-xs truncate">\${w.title}</td>
+          <td class="p-3.5 text-slate-800 font-medium">\${inst.doctorName}</td>
+          <td class="p-3.5 text-slate-600">\${inst.academicRank} - \${inst.department}</td>
+          <td class="p-3.5 text-slate-600 font-mono">\${inst.phone}</td>
+          <td class="p-3.5 text-slate-600">\${inst.confirmedDate}</td>
+          <td class="p-3.5 text-center">
+            <span class="inline-flex px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 text-[11px] font-semibold">مؤكد التنفيذ</span>
+          </td>
+        \`;
+        tbody.appendChild(tr);
+      });
+
+      PROPOSALS.forEach(prop => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-amber-50/40 transition-colors bg-amber-50/20';
+        tr.innerHTML = \`
+          <td class="p-3.5 font-mono text-amber-700 font-bold">\${prop.proposalCode}</td>
+          <td class="p-3.5 font-semibold text-slate-900 max-w-xs truncate">\${prop.workshopTitle} (مقترح جديد)</td>
+          <td class="p-3.5 text-slate-800 font-medium">\${prop.facultyName}</td>
+          <td class="p-3.5 text-slate-600">\${prop.academicRank} - \${prop.department}</td>
+          <td class="p-3.5 text-slate-600 font-mono">\${prop.phone}</td>
+          <td class="p-3.5 text-slate-600">\${prop.semester} - \${prop.deliveryMode}</td>
+          <td class="p-3.5 text-center">
+            <span class="inline-flex px-2 py-0.5 rounded-full bg-amber-100 text-amber-800 text-[11px] font-semibold">قيد المراجعة</span>
+          </td>
+        \`;
+        tbody.appendChild(tr);
+      });
+    }
+
+    function updateStats() {
+      const regCount = WORKSHOPS.filter(w => !!w.instructor).length;
+      document.getElementById('registeredCountStat').textContent = regCount + PROPOSALS.length;
+      document.getElementById('totalWorkshopsCount').textContent = WORKSHOPS.length;
+    }
+
+    function exportToCsv() {
+      let csv = 'رمز القيد,الورشة التدريبية,اسم عضو هيئة التدريس,الرتبة الأكاديمية,القسم,البريد الإلكتروني,رقم الجوال,الموعد المقترح,نمط التنفيذ,حالة الطلب\\n';
+      WORKSHOPS.filter(w => !!w.instructor).forEach(w => {
+        const i = w.instructor;
+        csv += \`"\${i.registrationCode}","\${w.title}","\${i.doctorName}","\${i.academicRank}","\${i.department}","\${i.email}","\${i.phone}","\${i.confirmedDate}","\${i.deliveryMode}","مسجل للتنفيذ"\\n\`;
+      });
+      PROPOSALS.forEach(p => {
+        csv += \`"\${p.proposalCode}","\${p.workshopTitle}","\${p.facultyName}","\${p.academicRank}","\${p.department}","\${p.email}","\${p.phone}","\${p.semester}","\${p.deliveryMode}","مقترح جديد"\\n\`;
+      });
+
+      const blob = new Blob(["\\uFEFF" + csv], { type: 'text/csv;charset=utf-8;' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'كشف_تنسيق_الورش_جامعة_المجمعة_الكلية_التطبيقية.csv';
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      renderPrograms();
+      filterWorkshops();
+      updateStats();
+    });
+  </script>
+</body>
+</html>
