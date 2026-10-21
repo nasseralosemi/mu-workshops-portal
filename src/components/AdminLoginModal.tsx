@@ -22,13 +22,13 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
     e.preventDefault();
     const clean = passcode.trim();
 
-    // Accepted passcodes: 2026 or mu2026
-    if (clean === '2026' || clean.toLowerCase() === 'mu2026') {
+    // Accepted passcode: 0500996966 (confidential)
+    if (clean === '0500996966') {
       setErrorMsg('');
       setPasscode('');
       onSuccess();
     } else {
-      setErrorMsg('رمز المرور غير صحيح. يرجى إدخال رمز المرور المعتمد لوحدة الإرشاد المهني (2026).');
+      setErrorMsg('رمز المرور غير صحيح. يرجى إدخال رمز المرور السري المعتمد للمشرف.');
     }
   };
 
@@ -95,11 +95,6 @@ export const AdminLoginModal: React.FC<AdminLoginModalProps> = ({
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
             </div>
-
-            <p className="text-[11px] text-slate-500 mt-1.5 flex items-center justify-between">
-              <span>الرمز المعتمد لوحدة الإرشاد:</span>
-              <span className="font-mono text-emerald-800 font-bold bg-slate-100 px-2 py-0.5 rounded text-[11px]">2026</span>
-            </p>
           </div>
 
           {errorMsg && (
