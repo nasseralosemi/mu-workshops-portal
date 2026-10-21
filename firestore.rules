@@ -1,0 +1,78 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper functions
+    function isValidId(id) {
+      return id is string && id.size() > 0 && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$');
+    }
+
+    function incoming() {
+      return request.resource.data;
+    }
+
+    function existing() {
+      return resource.data;
+    }
+
+    function isValidWorkshop(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.code is string && data.code.size() <= 100 &&
+             data.title is string && data.title.size() <= 500 &&
+             data.programId is string && data.programId.size() <= 100 &&
+             data.semester is string && data.semester.size() <= 100 &&
+             data.mode is string && data.mode.size() <= 100;
+    }
+
+    function isValidProposal(data) {
+      return data.id is string && data.id.size() <= 128 &&
+             data.proposalCode is string && data.proposalCode.size() <= 100 &&
+             data.facultyName is string && data.facultyName.size() <= 300 &&
+             data.workshopTitle is string && data.workshopTitle.size() <= 500 &&
+             data.semester is string && data.semester.size() <= 100 &&
+             data.deliveryMode is string && data.deliveryMode.size() <= 100;
+    }
+
+    function isValidRolePermission(data) {
+      return data.roleId is string && data.roleId.size() <= 128 &&
+             data.roleName is string && data.roleName.size() <= 200;
+    }
+
+    // Workshops Collection
+    match /workshops/{workshopId} {
+      allow get: if isValidId(workshopId);
+      allow list: if true;
+      allow create: if isValidId(workshopId) && isValidWorkshop(incoming());
+      allow update: if isValidId(workshopId) && isValidWorkshop(incoming());
+      allow delete: if isValidId(workshopId);
+    }
+
+    // Proposals Collection
+    match /proposals/{proposalId} {
+      allow get: if isValidId(proposalId);
+      allow list: if true;
+      allow create: if isValidId(proposalId) && isValidProposal(incoming());
+      allow update: if isValidId(proposalId) && isValidProposal(incoming());
+      allow delete: if isValidId(proposalId);
+    }
+
+    // Role Permissions & Supervisor Authorization
+    match /rolePermissions/{roleId} {
+      allow get: if isValidId(roleId);
+      allow list: if true;
+      allow write: if isValidId(roleId) && isValidRolePermission(incoming());
+    }
+
+    // System Settings & Connectivity Checks
+    match /systemSettings/{settingId} {
+      allow get: if isValidId(settingId);
+      allow list: if true;
+      allow write: if isValidId(settingId);
+    }
+
+    // Default deny catch-all
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

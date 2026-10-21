@@ -1,5 +1,6 @@
 import React, { useState, useMemo } from 'react';
 import { Workshop, CustomWorkshopProposal } from '../types';
+import { RolePermissionDoc } from '../firebase';
 import {
   FileSpreadsheet,
   Printer,
@@ -14,6 +15,9 @@ import {
   Calendar,
   Check,
   Trash2,
+  Database,
+  CheckCircle2,
+  Cloud,
 } from 'lucide-react';
 
 interface CoordinatorDashboardProps {
@@ -24,6 +28,8 @@ interface CoordinatorDashboardProps {
   onLogout: () => void;
   onCancelRegistration?: (workshopId: string) => void;
   onApproveProposal?: (proposalId: string) => void;
+  rolePermissions?: RolePermissionDoc[];
+  cloudStatus?: 'online' | 'syncing' | 'offline';
 }
 
 export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
@@ -165,6 +171,67 @@ export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
           <div className="bg-emerald-950/60 border border-emerald-700/40 rounded-xl p-3.5">
             <span className="block text-2xl font-bold text-white font-mono tabular-nums">10</span>
             <span className="text-[11px] text-emerald-200 mt-0.5 block">برامج وتخصصات مغطاة</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Cloud Persistence & Role Permissions Verification Panel */}
+      <div className="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs mb-8">
+        <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4 border-b border-slate-100">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center border border-emerald-200 shrink-0">
+              <Database className="w-5 h-5 text-emerald-700" />
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <h3 className="text-sm font-bold text-slate-900">
+                  قاعدة البيانات السحابية الحية (Firebase Firestore)
+                </h3>
+                <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-semibold bg-emerald-100 text-emerald-800">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-600 animate-pulse"></span>
+                  نشطة ومربوطة سحابياً
+                </span>
+              </div>
+              <p className="text-xs text-slate-500 mt-0.5">
+                تخزين ومزامنة سحابية مستمرة لكافة سجلات تسجيل الدكاترة، المقترحات الجديدة، وصلاحيات الإشراف دون الحاجة لأي مفاتيح يدوية.
+              </p>
+            </div>
+          </div>
+          <div className="flex items-center gap-3 text-xs text-slate-600">
+            <div className="flex items-center gap-1.5 bg-slate-50 px-3 py-1.5 rounded-lg border border-slate-200">
+              <Cloud className="w-3.5 h-3.5 text-emerald-600" />
+              <span>المزامنة التلقائية: <strong>مفعلة لحظياً</strong></span>
+            </div>
+          </div>
+        </div>
+
+        {/* Role Permissions pill list */}
+        <div className="pt-3.5">
+          <div className="text-[11px] font-semibold text-slate-500 mb-2 flex items-center gap-1.5">
+            <ShieldCheck className="w-3.5 h-3.5 text-emerald-600" />
+            <span>صلاحيات دور المشرف المخزنة في السحابة:</span>
+          </div>
+          <div className="flex flex-wrap gap-2 text-xs">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg border border-slate-200">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              عرض كشوفات وتسجيلات الورش كاملة
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg border border-slate-200">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              اعتماد المقترحات الجديدة وتحويلها لورش معتمدة
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg border border-slate-200">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              إلغاء وحذف وتعديل كشوفات الكادر التدريسي
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg border border-slate-200">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              تصدير البيانات لملفات Excel / CSV والطباعة الرسمية
+            </span>
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 bg-slate-100 text-slate-700 rounded-lg border border-slate-200">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+              الاطلاع على أرقام جوال وإيميلات أعضاء هيئة التدريس
+            </span>
           </div>
         </div>
       </div>

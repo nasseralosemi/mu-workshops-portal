@@ -1,0 +1,95 @@
+{
+  "entities": {
+    "workshop": {
+      "title": "Workshop",
+      "description": "Academic career guidance or professional development workshop",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 100 },
+        "code": { "type": "string", "maxLength": 50 },
+        "title": { "type": "string", "maxLength": 200 },
+        "programId": { "type": "string", "maxLength": 50 },
+        "programName": { "type": "string", "maxLength": 100 },
+        "semester": { "type": "string", "maxLength": 50 },
+        "targetAudience": { "type": "string", "maxLength": 200 },
+        "duration": { "type": "string", "maxLength": 50 },
+        "defaultSchedule": { "type": "string", "maxLength": 100 },
+        "mode": { "type": "string", "maxLength": 50 },
+        "location": { "type": "string", "maxLength": 100 },
+        "topics": { "type": "array", "description": "Workshop core topics" },
+        "outcomes": { "type": "array", "description": "Expected outcomes" },
+        "professionalCert": { "type": "string", "maxLength": 100 },
+        "instructor": { "type": "object", "description": "Registered faculty instructor details" },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "code", "title", "programId", "semester", "mode"]
+    },
+    "proposal": {
+      "title": "CustomWorkshopProposal",
+      "description": "Faculty proposed custom workshop",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "maxLength": 100 },
+        "proposalCode": { "type": "string", "maxLength": 50 },
+        "facultyName": { "type": "string", "maxLength": 150 },
+        "academicRank": { "type": "string", "maxLength": 100 },
+        "department": { "type": "string", "maxLength": 150 },
+        "email": { "type": "string", "maxLength": 120 },
+        "phone": { "type": "string", "maxLength": 30 },
+        "workshopTitle": { "type": "string", "maxLength": 200 },
+        "semester": { "type": "string", "maxLength": 50 },
+        "deliveryMode": { "type": "string", "maxLength": 50 },
+        "targetAudience": { "type": "string", "maxLength": 200 },
+        "topics": { "type": "string", "maxLength": 1000 },
+        "expectedOutcomes": { "type": "string", "maxLength": 1000 },
+        "specialRequirements": { "type": "string", "maxLength": 1000 },
+        "submittedAt": { "type": "string", "maxLength": 50 },
+        "status": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["id", "proposalCode", "facultyName", "workshopTitle", "semester", "deliveryMode"]
+    },
+    "rolePermission": {
+      "title": "RolePermission",
+      "description": "System roles and supervisor permissions",
+      "type": "object",
+      "properties": {
+        "roleId": { "type": "string", "maxLength": 50 },
+        "roleName": { "type": "string", "maxLength": 100 },
+        "passcodeHash": { "type": "string", "maxLength": 100 },
+        "permissions": { "type": "array", "description": "List of granted capabilities" },
+        "description": { "type": "string", "maxLength": 250 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["roleId", "roleName"]
+    },
+    "systemSetting": {
+      "title": "SystemSetting",
+      "description": "Platform global configuration and metadata",
+      "type": "object",
+      "properties": {
+        "key": { "type": "string", "maxLength": 100 },
+        "value": { "type": "string", "maxLength": 500 },
+        "updatedAt": { "type": "string", "maxLength": 50 }
+      },
+      "required": ["key"]
+    }
+  },
+  "firestore": {
+    "/workshops/{workshopId}": {
+      "schema": "workshop",
+      "description": "Official semester workshops catalog with registration states"
+    },
+    "/proposals/{proposalId}": {
+      "schema": "proposal",
+      "description": "Proposals submitted by faculty members"
+    },
+    "/rolePermissions/{roleId}": {
+      "schema": "rolePermission",
+      "description": "Supervisor and coordinator role definitions and access permissions"
+    },
+    "/systemSettings/{settingId}": {
+      "schema": "systemSetting",
+      "description": "System settings and semester config"
+    }
+  }
+}

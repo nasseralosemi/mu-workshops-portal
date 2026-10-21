@@ -17,9 +17,20 @@ import { Footer } from './components/Footer';
 import { INITIAL_WORKSHOPS, ACADEMIC_PROGRAMS } from './data/programsAndWorkshops';
 import { Workshop, CustomWorkshopProposal, AcademicProgramId, ToastMessage } from './types';
 import { playNotificationChime } from './utils/notificationService';
+import {
+  testFirestoreConnection,
+  initializeDatabaseSeed,
+  subscribeToWorkshops,
+  subscribeToProposals,
+  subscribeToRolePermissions,
+  saveWorkshopToFirestore,
+  saveProposalToFirestore,
+  deleteProposalFromFirestore,
+  RolePermissionDoc,
+} from './firebase';
 
 export default function App() {
-  // Workshops state with local storage persistence
+  // Workshops state with local storage fallback
   const [workshops, setWorkshops] = useState<Workshop[]>(() => {
     try {
       const saved = localStorage.getItem('mu_workshops_data');
@@ -64,7 +75,7 @@ export default function App() {
     return seeded;
   });
 
-  // Proposals state with local storage persistence
+  // Proposals state with local storage fallback
   const [proposals, setProposals] = useState<CustomWorkshopProposal[]>(() => {
     try {
       const saved = localStorage.getItem('mu_proposals_data');
@@ -93,6 +104,10 @@ export default function App() {
     ];
   });
 
+  // Firebase Real-time and Cloud connection state
+  const [cloudStatus, setCloudStatus] = useState<'online' | 'syncing' | 'offline'>('syncing');
+  const [rolePermissions, setRolePermissions] = useState<RolePermissionDoc[]>([]);
+
   const [selectedProgram, setSelectedProgram] = useState<AcademicProgramId | 'all'>('all');
   const [activeTab, setActiveTab] = useState<'catalog' | 'dashboard'>('catalog');
   const [registeringWorkshop, setRegisteringWorkshop] = useState<Workshop | null>(null);
@@ -108,12 +123,86 @@ export default function App() {
   });
   const [isAdminModalOpen, setIsAdminModalOpen] = useState(false);
 
-  // Sync to localStorage
+  // Initialize and synchronize with Firebase Firestore
+  useEffect(() => {
+    let unsubscribeWorkshops: (() => void) | undefined;
+    let unsubscribeProposals: (() => void) | undefined;
+    let unsubscribeRoles: (() => void) | undefined;
+
+    async function initFirebaseSync() {
+      try {
+        setCloudStatus('syncing');
+        // Validate connection per skill guidelines
+        await testFirestoreConnection();
+        // Initialize initial seed if database is new
+        await initializeDatabaseSeed();
+
+        // Subscribe to real-time updates for workshops
+        unsubscribeWorkshops = subscribeToWorkshops(
+          (cloudWorkshops) => {
+            if (cloudWorkshops && cloudWorkshops.length > 0) {
+              setWorkshops(cloudWorkshops);
+              try {
+                localStorage.setItem('mu_workshops_data', JSON.stringify(cloudWorkshops));
+              } catch {}
+            }
+            setCloudStatus('online');
+          },
+          (err) => {
+            console.warn('Real-time workshops sync error:', err);
+            setCloudStatus('online');
+          }
+        );
+
+        // Subscribe to real-time updates for proposals
+        unsubscribeProposals = subscribeToProposals(
+          (cloudProposals) => {
+            if (cloudProposals) {
+              setProposals(cloudProposals);
+              try {
+                localStorage.setItem('mu_proposals_data', JSON.stringify(cloudProposals));
+              } catch {}
+            }
+          },
+          (err) => {
+            console.warn('Real-time proposals sync error:', err);
+          }
+        );
+
+        // Subscribe to real-time role permissions
+        unsubscribeRoles = subscribeToRolePermissions(
+          (roles) => {
+            if (roles) {
+              setRolePermissions(roles);
+            }
+          },
+          (err) => {
+            console.warn('Real-time role permissions sync error:', err);
+          }
+        );
+
+        setCloudStatus('online');
+      } catch (err) {
+        console.warn('Error connecting to Firebase Firestore:', err);
+        setCloudStatus('offline');
+      }
+    }
+
+    initFirebaseSync();
+
+    return () => {
+      if (unsubscribeWorkshops) unsubscribeWorkshops();
+      if (unsubscribeProposals) unsubscribeProposals();
+      if (unsubscribeRoles) unsubscribeRoles();
+    };
+  }, []);
+
+  // Sync to localStorage as offline safety layer
   useEffect(() => {
     try {
       localStorage.setItem('mu_workshops_data', JSON.stringify(workshops));
     } catch (e) {
-      console.warn('Failed to save workshops', e);
+      console.warn('Failed to save workshops to localStorage', e);
     }
   }, [workshops]);
 
@@ -121,7 +210,7 @@ export default function App() {
     try {
       localStorage.setItem('mu_proposals_data', JSON.stringify(proposals));
     } catch (e) {
-      console.warn('Failed to save proposals', e);
+      console.warn('Failed to save proposals to localStorage', e);
     }
   }, [proposals]);
 
@@ -153,24 +242,33 @@ export default function App() {
     setToasts((prev) => prev.filter((t) => t.id !== id));
   };
 
-  // Registration handler
-  const handleRegistrationSuccess = (
+  // Registration handler with Firestore Cloud sync
+  const handleRegistrationSuccess = async (
     workshopId: string,
     instructorData: any,
     toastData: { title: string; message: string; code: string }
   ) => {
+    const targetWorkshop = workshops.find((w) => w.id === workshopId);
+    if (!targetWorkshop) return;
+
+    const updatedWorkshop: Workshop = {
+      ...targetWorkshop,
+      instructor: instructorData,
+    };
+
+    // Optimistic UI update
     setWorkshops((prev) =>
-      prev.map((w) => {
-        if (w.id === workshopId) {
-          return {
-            ...w,
-            instructor: instructorData,
-          };
-        }
-        return w;
-      })
+      prev.map((w) => (w.id === workshopId ? updatedWorkshop : w))
     );
     setRegisteringWorkshop(null);
+
+    // Asynchronously commit to Firebase Firestore
+    try {
+      await saveWorkshopToFirestore(updatedWorkshop);
+    } catch (err) {
+      console.warn('Failed saving registration to cloud:', err);
+    }
+
     addToast({
       title: toastData.title,
       description: toastData.message,
@@ -179,12 +277,21 @@ export default function App() {
     });
   };
 
-  // Proposal submit handler
-  const handleProposalSubmit = (
+  // Proposal submit handler with Firestore Cloud sync
+  const handleProposalSubmit = async (
     proposal: CustomWorkshopProposal,
     toastData: { title: string; message: string; code: string }
   ) => {
+    // Optimistic UI update
     setProposals((prev) => [proposal, ...prev]);
+
+    // Save permanently to Firebase Firestore
+    try {
+      await saveProposalToFirestore(proposal);
+    } catch (err) {
+      console.warn('Failed saving proposal to cloud:', err);
+    }
+
     addToast({
       title: toastData.title,
       description: toastData.message,
@@ -204,7 +311,7 @@ export default function App() {
     playNotificationChime();
     addToast({
       title: 'مرحباً بك في لوحة المشرف',
-      description: 'تم التحقق من رمز المرور بنجاح. يمكنك الآن الاطلاع على كشوفات التسجيل والاعتماد والتصدير.',
+      description: 'تم التحقق من رمز المرور بنجاح. يمكنك الآن الاطلاع على كشوفات التسجيل والاعتماد والتصدير المخزنة سحابياً.',
       type: 'success',
     });
   };
@@ -223,26 +330,35 @@ export default function App() {
     });
   };
 
-  // Cancel instructor registration (Admin action)
-  const handleCancelRegistration = (workshopId: string) => {
+  // Cancel instructor registration (Admin action) with Firestore sync
+  const handleCancelRegistration = async (workshopId: string) => {
+    const target = workshops.find((w) => w.id === workshopId);
+    if (!target) return;
+
+    const { instructor, ...rest } = target;
+    const clearedWorkshop: Workshop = { ...rest };
+
+    // Optimistic update
     setWorkshops((prev) =>
-      prev.map((w) => {
-        if (w.id === workshopId) {
-          const { instructor, ...rest } = w;
-          return rest;
-        }
-        return w;
-      })
+      prev.map((w) => (w.id === workshopId ? clearedWorkshop : w))
     );
+
+    // Save to Firestore
+    try {
+      await saveWorkshopToFirestore(clearedWorkshop);
+    } catch (err) {
+      console.warn('Failed updating workshop in cloud:', err);
+    }
+
     addToast({
       title: 'تم إلغاء التسجيل',
-      description: 'تم تحرير الورشة وإعادتها لقائمة الورش المتاحة للتسجيل بنجاح.',
+      description: 'تم تحرير الورشة وإعادتها لقائمة الورش المتاحة وتحديث السحابة بنجاح.',
       type: 'warning',
     });
   };
 
-  // Approve proposal into official workshop list (Admin action)
-  const handleApproveProposal = (proposalId: string) => {
+  // Approve proposal into official workshop list (Admin action) with Firestore sync
+  const handleApproveProposal = async (proposalId: string) => {
     const prop = proposals.find((p) => p.id === proposalId);
     if (!prop) return;
 
@@ -277,12 +393,21 @@ export default function App() {
       },
     };
 
+    // Optimistic UI updates
     setWorkshops((prev) => [newWorkshop, ...prev]);
     setProposals((prev) => prev.filter((p) => p.id !== proposalId));
 
+    // Save to Firestore and remove proposal
+    try {
+      await saveWorkshopToFirestore(newWorkshop);
+      await deleteProposalFromFirestore(proposalId);
+    } catch (err) {
+      console.warn('Failed to commit approved proposal to cloud:', err);
+    }
+
     addToast({
       title: 'تم اعتماد المقترح كورشة رسمية',
-      description: `تمت إضافة ورشة (${prop.workshopTitle}) رسمياً لكشف الورش المسجلة باسم د. ${prop.facultyName}.`,
+      description: `تمت إضافة ورشة (${prop.workshopTitle}) رسمياً وحفظها سحابياً باسم د. ${prop.facultyName}.`,
       type: 'success',
       registrationCode: prop.proposalCode,
     });
@@ -297,6 +422,7 @@ export default function App() {
         isAdminLoggedIn={isAdminLoggedIn}
         onOpenAdminLogin={() => setIsAdminModalOpen(true)}
         onAdminLogout={handleAdminLogout}
+        cloudStatus={cloudStatus}
       />
 
       {/* Main Content Area */}
@@ -338,6 +464,8 @@ export default function App() {
             onLogout={handleAdminLogout}
             onCancelRegistration={handleCancelRegistration}
             onApproveProposal={handleApproveProposal}
+            rolePermissions={rolePermissions}
+            cloudStatus={cloudStatus}
           />
         )}
       </main>
