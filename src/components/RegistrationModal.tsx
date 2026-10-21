@@ -104,7 +104,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       instructorRecord,
       {
         title: 'تم تأكيد تسجيل تنفيذ الورشة بنجاح',
-        message: `سعادة د. ${doctorName}، تم توثيق رغبتكم في تقديم ورشة (${workshop.title}) وإرسال إشعار لمنسق الوحدة بالكلية التطبيقية.`,
+        message: `د. ${doctorName}، تم توثيق رغبتكم في تقديم ورشة (${workshop.title}) وإرسال إشعار لمنسق الوحدة بالكلية التطبيقية.`,
         code: regCode,
       }
     );
@@ -128,7 +128,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             <div>
               <h3 className="text-lg font-bold">تسجيل لتنفيذ ورشة تدريبية</h3>
               <p className="text-xs text-emerald-200">
-                توثيق رغبة سعادة عضو هيئة التدريس / المدرب في تولي تقديم الورشة
+                توثيق رغبة عضو هيئة التدريس / المدرب في تولي تقديم الورشة
               </p>
             </div>
           </div>
@@ -176,7 +176,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
                   required
                   value={doctorName}
                   onChange={(e) => setDoctorName(e.target.value)}
-                  placeholder="سعادة د. / أ. (الاسم الرباعي)"
+                  placeholder="د. / أ. (الاسم الرباعي)"
                   className="w-full border border-slate-300 rounded-lg pl-3 pr-9 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none"
                 />
                 <User className="w-4 h-4 text-slate-400 absolute right-3 top-2.5" />

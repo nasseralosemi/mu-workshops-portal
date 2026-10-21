@@ -246,7 +246,7 @@ export function generateSingleFileHtml(): string {
             </div>
             <h3 class="text-2xl font-bold mb-3">اقترح ورشة عمل تدريبية جديدة</h3>
             <p class="text-emerald-100/90 text-xs sm:text-sm leading-relaxed mb-6">
-              نرحب باقتراحات ومبادرات أصحاب السعادة أعضاء هيئة التدريس لتقديم ورش عمل تخصصية نوعية غير مدرجة في الدليل، تتوافق مع خبراتهم البحثية ومجالاتهم المهنية الدقيقة بما يخدم طلبة الكلية التطبيقية.
+              نرحب باقتراحات ومبادرات أعضاء هيئة التدريس لتقديم ورش عمل تخصصية نوعية غير مدرجة في الدليل، تتوافق مع خبراتهم البحثية ومجالاتهم المهنية الدقيقة بما يخدم طلبة الكلية التطبيقية.
             </p>
 
             <div class="space-y-4 text-xs text-emerald-200">
@@ -277,7 +277,7 @@ export function generateSingleFileHtml(): string {
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
               <div>
                 <label class="block text-xs font-semibold text-emerald-200 mb-1.5">اسم عضو هيئة التدريس / المدرب *</label>
-                <input type="text" name="facultyName" required placeholder="سعادة د. / أ." class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                <input type="text" name="facultyName" required placeholder="د. / أ." class="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-4 py-2.5 text-xs text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none">
               </div>
 
               <div>
@@ -508,7 +508,7 @@ export function generateSingleFileHtml(): string {
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label class="block text-xs font-semibold text-slate-700 mb-1">اسم عضو هيئة التدريس / الدكتور *</label>
-            <input type="text" id="regDoctorName" required placeholder="سعادة د. / أ." class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none">
+            <input type="text" id="regDoctorName" required placeholder="د. / أ." class="w-full border border-slate-300 rounded-lg px-3.5 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none">
           </div>
 
           <div>
@@ -603,7 +603,7 @@ export function generateSingleFileHtml(): string {
 
       <!-- Secret Admin Link in Footer -->
       <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-slate-500 text-[11px]">
-        <p>المنصة مخصصة لأعضاء هيئة التدريس والطلبة بالكلية التطبيقية.</p>
+        <p>البوابة مخصصة لأعضاء هيئة التدريس والطلبة بالكلية التطبيقية.</p>
         <button onclick="openAdminLoginModal()" class="inline-flex items-center gap-1.5 text-slate-500 hover:text-emerald-400 transition-colors cursor-pointer text-[11px]" title="بوابة المشرفين">
           <i class="fa-solid fa-lock text-[10px]"></i>
           <span>دخول المشرفين</span>
@@ -620,9 +620,9 @@ export function generateSingleFileHtml(): string {
     let isSupervisorUnlocked = false;
 
     // Seed 2 default registrations
-    WORKSHOPS[0].instructor = { doctorName: 'سعادة د. عبد العزيز بن سعد الغامدي', academicRank: 'أستاذ مشارك', department: 'البرمجة وعلوم الحاسب', email: 'a.alghamdi@mu.edu.sa', phone: '0555123456', confirmedDate: WORKSHOPS[0].defaultSchedule, deliveryMode: 'حضوري', registrationCode: 'MU-WRK-4819' };
+    WORKSHOPS[0].instructor = { doctorName: 'د. عبد العزيز بن سعد الغامدي', academicRank: 'أستاذ مشارك', department: 'البرمجة وعلوم الحاسب', email: 'a.alghamdi@mu.edu.sa', phone: '0555123456', confirmedDate: WORKSHOPS[0].defaultSchedule, deliveryMode: 'حضوري', registrationCode: 'MU-WRK-4819' };
     if (WORKSHOPS[6]) {
-      WORKSHOPS[6].instructor = { doctorName: 'سعادة د. نورة بنت فهد التميمي', academicRank: 'أستاذ مساعد', department: 'التسويق', email: 'n.altamimi@mu.edu.sa', phone: '0501239876', confirmedDate: WORKSHOPS[6].defaultSchedule, deliveryMode: 'حضوري', registrationCode: 'MU-WRK-9204' };
+      WORKSHOPS[6].instructor = { doctorName: 'د. نورة بنت فهد التميمي', academicRank: 'أستاذ مساعد', department: 'التسويق', email: 'n.altamimi@mu.edu.sa', phone: '0501239876', confirmedDate: WORKSHOPS[6].defaultSchedule, deliveryMode: 'حضوري', registrationCode: 'MU-WRK-9204' };
     }
 
     function playChime() {
@@ -953,7 +953,7 @@ export function generateSingleFileHtml(): string {
       updateStats();
       filterWorkshops();
       if (isSupervisorUnlocked) renderRegistrationsTable();
-      showToast('تم تسجيل تنفيذ الورشة بنجاح', \`تم توثيق رغبة سعادة د. \${docName} في تقديم ورشة (\${w.title}) وتزويد وحدة الإرشاد المهني بالبيانات.\`, regCode);
+      showToast('تم تسجيل تنفيذ الورشة بنجاح', \`تم توثيق رغبة د. \${docName} في تقديم ورشة (\${w.title}) وتزويد وحدة الإرشاد المهني بالبيانات.\`, regCode);
     }
 
     async function submitCustomProposal(e) {
@@ -1013,7 +1013,7 @@ export function generateSingleFileHtml(): string {
       btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> إرسال مقترح الورشة واعتماده';
 
       if (isSupervisorUnlocked) renderRegistrationsTable();
-      showToast('تم إرسال المقترح بنجاح', \`شكراً سعادة د. \${facultyName}، تم توجيه مقترح ورشة (\${title}) إلى منسق الوحدة للاعتماد والجدولة.\`, code);
+      showToast('تم إرسال المقترح بنجاح', \`شكراً د. \${facultyName}، تم توجيه مقترح ورشة (\${title}) إلى منسق الوحدة للاعتماد والجدولة.\`, code);
     }
 
     function renderRegistrationsTable() {

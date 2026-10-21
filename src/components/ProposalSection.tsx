@@ -86,7 +86,7 @@ export const ProposalSection: React.FC<ProposalSectionProps> = ({ onSubmitPropos
 
     onSubmitProposal(newProposal, {
       title: 'تم استلام مقترح الورشة التدريبية بنجاح',
-      message: `سعادة د. ${facultyName}، تم توجيه مقترح ورشة (${workshopTitle}) إلى منسق وحدة الإرشاد المهني بالكلية التطبيقية لاعتمادها وجدولتها.`,
+      message: `د. ${facultyName}، تم توجيه مقترح ورشة (${workshopTitle}) إلى منسق وحدة الإرشاد المهني بالكلية التطبيقية لاعتمادها وجدولتها.`,
       code,
     });
   };
@@ -100,7 +100,7 @@ export const ProposalSection: React.FC<ProposalSectionProps> = ({ onSubmitPropos
             <div>
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-400/20 text-amber-300 text-xs font-semibold mb-4">
                 <Sparkles className="w-3.5 h-3.5" />
-                <span>مبادرة أصحاب السعادة أعضاء هيئة التدريس</span>
+                <span>مبادرة أعضاء هيئة التدريس</span>
               </div>
 
               <h3 className="text-2xl font-bold tracking-tight mb-3">
@@ -147,7 +147,7 @@ export const ProposalSection: React.FC<ProposalSectionProps> = ({ onSubmitPropos
                     required
                     value={facultyName}
                     onChange={(e) => setFacultyName(e.target.value)}
-                    placeholder="سعادة د. / أ. (الاسم الرباعي)"
+                    placeholder="د. / أ. (الاسم الرباعي)"
                     className="w-full bg-slate-800/80 border border-slate-700 rounded-xl px-3.5 py-2 text-xs text-white placeholder-slate-400 focus:ring-2 focus:ring-emerald-500 focus:outline-none"
                   />
                 </div>

@@ -34,7 +34,7 @@ export default function App() {
     seeded[0] = {
       ...seeded[0],
       instructor: {
-        doctorName: 'سعادة د. عبد العزيز بن سعد الغامدي',
+        doctorName: 'د. عبد العزيز بن سعد الغامدي',
         academicRank: 'أستاذ مشارك',
         department: 'البرمجة وعلوم الحاسب',
         email: 'a.alghamdi@mu.edu.sa',
@@ -49,7 +49,7 @@ export default function App() {
     seeded[6] = {
       ...seeded[6],
       instructor: {
-        doctorName: 'سعادة د. نورة بنت فهد التميمي',
+        doctorName: 'د. نورة بنت فهد التميمي',
         academicRank: 'أستاذ مساعد',
         department: 'التسويق',
         email: 'n.altamimi@mu.edu.sa',
@@ -76,7 +76,7 @@ export default function App() {
       {
         id: 'prop-sample-1',
         proposalCode: 'MU-PROP-8371',
-        facultyName: 'سعادة د. خالد بن محمد السعيد',
+        facultyName: 'د. خالد بن محمد السعيد',
         academicRank: 'أستاذ مساعد',
         department: 'تحليل البيانات والذكاء الاصطناعي',
         email: 'k.alsaeed@mu.edu.sa',
