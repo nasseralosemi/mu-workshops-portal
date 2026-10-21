@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Workshop, AcademicRank, DeliveryMode } from '../types';
 import { ACADEMIC_PROGRAMS } from '../data/programsAndWorkshops';
-import { X, Check, Loader2, Calendar, MapPin, Building, ShieldCheck, Mail, Phone, User, Award } from 'lucide-react';
+import { X, Check, Loader2, Calendar, MapPin, ShieldCheck, Mail, Phone, User, Award, AlertCircle, Clock, Info } from 'lucide-react';
 import { dispatchFormSubmission, playNotificationChime } from '../utils/notificationService';
 
 interface RegistrationModalProps {
@@ -20,16 +20,83 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
   const [department, setDepartment] = useState('');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [confirmedDate, setConfirmedDate] = useState('');
+  const [executionDate, setExecutionDate] = useState('');
+  const [executionTime, setExecutionTime] = useState('10:00 صباحاً - 12:00 ظهراً (الفترة الصباحية)');
   const [deliveryMode, setDeliveryMode] = useState<DeliveryMode>('حضوري');
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [dateError, setDateError] = useState<string | null>(null);
+
+  // Dynamic Minimum Date: 11 days from today (blocks the first 10 days)
+  // e.g., if today is the 10th, the earliest selectable date is the 21st (10 + 11 = 21)
+  const minAllowedDateString = useMemo(() => {
+    const d = new Date();
+    d.setDate(d.getDate() + 11);
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const day = String(d.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  }, []);
+
+  // Format date in Arabic for friendly UX display
+  const formatArabicFriendlyDate = (dateStr: string): string => {
+    if (!dateStr) return '';
+    try {
+      const parts = dateStr.split('-');
+      if (parts.length === 3) {
+        const [y, m, d] = parts.map(Number);
+        const obj = new Date(y, m - 1, d);
+        return obj.toLocaleDateString('ar-SA', {
+          weekday: 'long',
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+      }
+      return dateStr;
+    } catch {
+      return dateStr;
+    }
+  };
+
+  // Validation function enforcing minimum 10-day advance notice
+  const validateExecutionDate = (selectedDateStr: string): boolean => {
+    if (!selectedDateStr) {
+      setDateError('يرجى اختيار تاريخ تنفيذ الدورة التدريبية من التقويم.');
+      return false;
+    }
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const parts = selectedDateStr.split('-');
+    if (parts.length !== 3) {
+      setDateError('عذراً، يجب أن يكون تاريخ تنفيذ الدورة بعد 10 أيام على الأقل من تاريخ اليوم لتنسيق الدورة.');
+      return false;
+    }
+
+    const [y, m, d] = parts.map(Number);
+    const chosen = new Date(y, m - 1, d);
+    chosen.setHours(0, 0, 0, 0);
+
+    // Minimum allowed is today + 11 days
+    const minAllowed = new Date(today);
+    minAllowed.setDate(minAllowed.getDate() + 11);
+
+    if (chosen.getTime() < minAllowed.getTime()) {
+      setDateError('عذراً، يجب أن يكون تاريخ تنفيذ الدورة بعد 10 أيام على الأقل من تاريخ اليوم لتنسيق الدورة.');
+      return false;
+    }
+
+    setDateError(null);
+    return true;
+  };
 
   useEffect(() => {
     if (workshop) {
       setDepartment(workshop.programName);
-      setConfirmedDate(workshop.defaultSchedule);
       setDeliveryMode(workshop.mode);
+      setDateError(null);
 
       // Pre-fill existing data if already registered
       if (workshop.instructor) {
@@ -38,23 +105,46 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
         setDepartment(workshop.instructor.department);
         setEmail(workshop.instructor.email);
         setPhone(workshop.instructor.phone);
-        setConfirmedDate(workshop.instructor.confirmedDate);
         setDeliveryMode(workshop.instructor.deliveryMode);
         setNotes(workshop.instructor.notes || '');
+
+        // Extract date if in YYYY-MM-DD or default to minAllowedDateString
+        const existingDateMatch = workshop.instructor.confirmedDate.match(/\d{4}-\d{2}-\d{2}/);
+        if (existingDateMatch) {
+          const extracted = existingDateMatch[0];
+          // Check if valid relative to minAllowed
+          if (extracted >= minAllowedDateString) {
+            setExecutionDate(extracted);
+          } else {
+            setExecutionDate(minAllowedDateString);
+          }
+        } else {
+          setExecutionDate(minAllowedDateString);
+        }
       } else {
         setDoctorName('');
         setEmail('');
         setPhone('');
         setNotes('');
+        // Initialize with earliest allowed date automatically
+        setExecutionDate(minAllowedDateString);
       }
     }
-  }, [workshop]);
+  }, [workshop, minAllowedDateString]);
 
   if (!workshop) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!doctorName || !email || !phone || !confirmedDate) return;
+
+    // Validate fields
+    if (!doctorName || !email || !phone || !executionDate) return;
+
+    // Strict validation check for the 10-day notice requirement
+    const isValid = validateExecutionDate(executionDate);
+    if (!isValid) {
+      return;
+    }
 
     setIsSubmitting(true);
     const regCode = 'MU-WRK-' + Math.floor(1000 + Math.random() * 9000);
@@ -64,13 +154,15 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       day: 'numeric',
     });
 
+    const combinedDateSchedule = `${executionDate} (${executionTime})`;
+
     const instructorRecord = {
       doctorName,
       academicRank,
       department,
       email,
       phone,
-      confirmedDate,
+      confirmedDate: combinedDateSchedule,
       deliveryMode,
       notes,
       registeredAt: nowIso,
@@ -89,7 +181,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       title: workshop.title,
       semester: workshop.semester,
       deliveryMode,
-      confirmedDate,
+      confirmedDate: combinedDateSchedule,
       topics: workshop.topics,
       outcomes: workshop.outcomes,
       notes,
@@ -104,7 +196,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
       instructorRecord,
       {
         title: 'تم تأكيد تسجيل تنفيذ الورشة بنجاح',
-        message: `د. ${doctorName}، تم توثيق رغبتكم في تقديم ورشة (${workshop.title}) وإرسال إشعار لمنسق الوحدة بالكلية التطبيقية.`,
+        message: `د. ${doctorName}، تم توثيق رغبتكم في تقديم ورشة (${workshop.title}) في موعد ${formatArabicFriendlyDate(executionDate)} وإرسال إشعار لمنسق الوحدة بالكلية التطبيقية.`,
         code: regCode,
       }
     );
@@ -153,7 +245,7 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
           <div className="flex flex-wrap items-center gap-4 text-xs text-slate-600 mt-2">
             <span className="flex items-center gap-1">
               <Calendar className="w-3.5 h-3.5 text-slate-400" />
-              <span>الموعد المقترح: {workshop.defaultSchedule}</span>
+              <span>الجدولة الأساسية بالدليل: {workshop.defaultSchedule}</span>
             </span>
             <span className="flex items-center gap-1">
               <MapPin className="w-3.5 h-3.5 text-slate-400" />
@@ -259,56 +351,115 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             </div>
           </div>
 
-          {/* Row 3: Preferred Date & Mode */}
+          {/* Row 3: Dynamic Date Picker with 10-day notice guard & Delivery Mode */}
+          <div className="bg-slate-50/80 p-4 rounded-2xl border border-slate-200/90 space-y-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold text-slate-800 mb-1 flex items-center justify-between">
+                  <span className="flex items-center gap-1.5">
+                    <Calendar className="w-3.5 h-3.5 text-emerald-700" />
+                    <span>تاريخ تنفيذ الدورة *</span>
+                  </span>
+                  <span className="text-[10px] text-emerald-800 bg-emerald-100/70 font-semibold px-2 py-0.5 rounded-full">
+                    متاح بدءاً من اليوم الـ 11
+                  </span>
+                </label>
+                <div className="relative">
+                  <input
+                    type="date"
+                    required
+                    min={minAllowedDateString}
+                    value={executionDate}
+                    onChange={(e) => {
+                      const val = e.target.value;
+                      setExecutionDate(val);
+                      validateExecutionDate(val);
+                    }}
+                    className={`w-full bg-white border ${
+                      dateError ? 'border-red-400 ring-2 ring-red-100' : 'border-slate-300'
+                    } rounded-xl px-3 py-2 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-emerald-600 focus:outline-none transition-all`}
+                  />
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-slate-800 mb-1 flex items-center gap-1.5">
+                  <Clock className="w-3.5 h-3.5 text-emerald-700" />
+                  <span>توقيت تنفيذ الورشة *</span>
+                </label>
+                <select
+                  value={executionTime}
+                  onChange={(e) => setExecutionTime(e.target.value)}
+                  className="w-full bg-white border border-slate-300 rounded-xl px-3 py-2 text-xs font-medium text-slate-800 focus:ring-2 focus:ring-emerald-600 focus:outline-none"
+                >
+                  <option value="10:00 صباحاً - 12:00 ظهراً (الفترة الصباحية)">10:00 صباحاً - 12:00 ظهراً (الفترة الصباحية)</option>
+                  <option value="12:30 ظهراً - 02:30 ظهراً (فترة الظهيرة)">12:30 ظهراً - 02:30 ظهراً (فترة الظهيرة)</option>
+                  <option value="05:00 مساءً - 07:00 مساءً (الفترة المسائية)">05:00 مساءً - 07:00 مساءً (الفترة المسائية)</option>
+                  <option value="07:30 مساءً - 09:30 مساءً (الفترة المسائية المتأخرة)">07:30 مساءً - 09:30 مساءً (الفترة المسائية المتأخرة)</option>
+                </select>
+              </div>
+            </div>
+
+            {/* Helper Notice & Friendly Date Output */}
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between text-[11px] text-slate-600 gap-1.5 pt-1 border-t border-slate-200/60">
+              <span className="flex items-center gap-1.5">
+                <Info className="w-3.5 h-3.5 text-emerald-700 shrink-0" />
+                <span>
+                  أول موعد متاح للاختيار: <strong className="text-emerald-800">{formatArabicFriendlyDate(minAllowedDateString)}</strong>
+                </span>
+              </span>
+              {executionDate && !dateError && (
+                <span className="text-emerald-700 font-semibold flex items-center gap-1">
+                  <Check className="w-3 h-3" />
+                  <span>الموعد المختار: {formatArabicFriendlyDate(executionDate)}</span>
+                </span>
+              )}
+            </div>
+
+            {/* Validation Error Banner */}
+            {dateError && (
+              <div className="p-3 rounded-xl bg-red-50 border border-red-200 text-red-800 text-xs font-semibold flex items-start gap-2 animate-shake">
+                <AlertCircle className="w-4 h-4 text-red-600 shrink-0 mt-0.5" />
+                <span className="leading-relaxed">{dateError}</span>
+              </div>
+            )}
+          </div>
+
+          {/* Delivery Mode & Special Requirements */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1">
-                تأكيد الموعد والتوقيت *
-              </label>
-              <input
-                type="text"
-                required
-                value={confirmedDate}
-                onChange={(e) => setConfirmedDate(e.target.value)}
-                placeholder="تأكيد الموعد المقترح أو تحديد موعد بديل"
-                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none"
-              />
-            </div>
-
-            <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1">
-                نمط التنفيذ المفضل *
+                نمط التنفيذ المعتمد *
               </label>
               <select
                 value={deliveryMode}
                 onChange={(e) => setDeliveryMode(e.target.value as DeliveryMode)}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none"
               >
-                <option value="حضوري">حضوري</option>
-                <option value="عن بعد">عن بعد</option>
+                <option value="حضوري">حضوري (بقاعات ومعامل الكلية)</option>
+                <option value="عن بعد">عن بعد (عبر منصة البلاك بورد / تيمز)</option>
               </select>
+            </div>
+
+            <div>
+              <label className="block text-xs font-semibold text-slate-700 mb-1">
+                متطلبات برمجية أو لوجستية خاصة (اختياري)
+              </label>
+              <input
+                type="text"
+                value={notes}
+                onChange={(e) => setNotes(e.target.value)}
+                placeholder="مثال: تجهيز معمل حاسب، برمجيات بايثون، داتا شو..."
+                className="w-full border border-slate-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none"
+              />
             </div>
           </div>
 
-          {/* Special Notes */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-700 mb-1">
-              متطلبات برمجية أو لوجستية خاصة (اختياري)
-            </label>
-            <input
-              type="text"
-              value={notes}
-              onChange={(e) => setNotes(e.target.value)}
-              placeholder="مثال: تجهيز معمل 102 ببرمجيات معينة، عدد مقاعد محدد..."
-              className="w-full border border-slate-300 rounded-lg px-3 py-2 text-xs focus:ring-2 focus:ring-emerald-600 focus:outline-none"
-            />
-          </div>
-
-          {/* Notice Box */}
-          <div className="p-3 bg-amber-50 rounded-xl border border-amber-200/80 text-xs text-amber-900 flex items-start gap-2.5">
+          {/* Official University Policy Notice */}
+          <div className="p-3 bg-amber-50/80 rounded-xl border border-amber-200/80 text-xs text-amber-900 flex items-start gap-2.5">
             <ShieldCheck className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" />
             <span className="leading-relaxed">
-              عند التأكيد، يُسجل الطلب رسمياً في وحدة الإرشاد المهني والتوظيف، وتُصدر الكلية التطبيقية خطاب شكر وتقدير رسمي وشهادة مدرب معتمدة فور إتمام التنفيذ.
+              عند التأكيد، يُسجل الطلب رسمياً في وحدة الإرشاد المهني والتوظيف بالكلية التطبيقية، وتُصدر الكلية خطاب تكليف وتنسيق رسمي وشهادة مدرب معتمدة فور إتمام التنفيذ.
             </span>
           </div>
 
@@ -324,8 +475,8 @@ export const RegistrationModal: React.FC<RegistrationModalProps> = ({
             </button>
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="px-6 py-2.5 bg-emerald-800 hover:bg-emerald-900 disabled:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-xs transition-all inline-flex items-center gap-2 cursor-pointer"
+              disabled={isSubmitting || !!dateError}
+              className="px-6 py-2.5 bg-emerald-800 hover:bg-emerald-900 disabled:bg-emerald-700/60 disabled:cursor-not-allowed text-white font-bold text-xs rounded-xl shadow-xs transition-all inline-flex items-center gap-2 cursor-pointer"
             >
               {isSubmitting ? (
                 <>
