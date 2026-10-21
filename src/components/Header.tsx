@@ -60,10 +60,10 @@ export const Header: React.FC<HeaderProps> = ({
           </span>
           <span className="font-medium text-[11px]">
             {cloudStatus === 'online'
-              ? 'متصل بسحابة Firebase (Firestore)'
+              ? 'متصل بسحابة'
               : cloudStatus === 'syncing'
-              ? 'جاري المزامنة السحابية...'
-              : 'جاري التحقق من الاتصال السحابي'}
+              ? 'جاري المزامنة...'
+              : 'جاري التحقق...'}
           </span>
         </div>
 
