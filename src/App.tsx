@@ -50,8 +50,12 @@ export default function App() {
         department: 'البرمجة وعلوم الحاسب',
         email: 'a.alghamdi@mu.edu.sa',
         phone: '0555123456',
-        confirmedDate: seeded[0].defaultSchedule,
+        confirmedDate: '2026-11-04',
+        executionDay: 'الأربعاء',
+        executionTime: '10:00 ص - 01:00 م',
+        durationHours: '3 ساعات تدريبية',
         deliveryMode: 'حضوري',
+        locationOrLink: 'معمل الحاسب المتقدم 102',
         notes: 'تم حجز معمل 102 وتجهيز بيئات الحوسبة السحابية',
         registeredAt: '19 أكتوبر 2026',
         registrationCode: 'MU-WRK-4819',
@@ -65,8 +69,12 @@ export default function App() {
         department: 'التسويق',
         email: 'n.altamimi@mu.edu.sa',
         phone: '0501239876',
-        confirmedDate: seeded[6].defaultSchedule,
+        confirmedDate: '2026-11-09',
+        executionDay: 'الإثنين',
+        executionTime: '11:00 ص - 01:00 م',
+        durationHours: 'ساعتان تدريبيتان',
         deliveryMode: 'حضوري',
+        locationOrLink: 'قاعة الابتكار والتسويق 201',
         notes: 'قاعة الابتكار والتسويق مع شاشات تفاعلية',
         registeredAt: '18 أكتوبر 2026',
         registrationCode: 'MU-WRK-9204',
@@ -254,6 +262,10 @@ export default function App() {
     const updatedWorkshop: Workshop = {
       ...targetWorkshop,
       instructor: instructorData,
+      mode: instructorData.deliveryMode,
+      location: instructorData.locationOrLink || targetWorkshop.location,
+      duration: instructorData.durationHours || targetWorkshop.duration,
+      defaultSchedule: `${instructorData.executionDay ? instructorData.executionDay + ' ' : ''}${instructorData.confirmedDate} (${instructorData.executionTime})`,
     };
 
     // Optimistic UI update

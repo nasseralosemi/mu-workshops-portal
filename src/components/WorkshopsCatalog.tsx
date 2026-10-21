@@ -49,7 +49,8 @@ export const WorkshopsCatalog: React.FC<WorkshopsCatalogProps> = ({
 
       const matchesProgram = selectedProgram === 'all' || w.programId === selectedProgram;
       const matchesSemester = selectedSemester === 'all' || w.semester === selectedSemester;
-      const matchesMode = selectedMode === 'all' || w.mode === selectedMode;
+      const effectiveMode = w.instructor?.deliveryMode || w.mode;
+      const matchesMode = selectedMode === 'all' || effectiveMode === selectedMode;
       const matchesStatus =
         statusFilter === 'all' ||
         (statusFilter === 'available' && !w.instructor) ||
@@ -176,7 +177,7 @@ export const WorkshopsCatalog: React.FC<WorkshopsCatalogProps> = ({
               </div>
             </div>
 
-            {/* Delivery Mode Filter: strictly (حضوري) or (عن بعد) */}
+            {/* Delivery Mode Filter: (الكل / حضوري / عن بعد / مدمج) */}
             <div>
               <label className="block text-xs font-semibold text-slate-700 mb-1.5">نمط التنفيذ</label>
               <div className="flex items-center gap-1 p-1 bg-white border border-slate-300 rounded-lg">
@@ -212,6 +213,17 @@ export const WorkshopsCatalog: React.FC<WorkshopsCatalogProps> = ({
                   }`}
                 >
                   عن بعد
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setSelectedMode('مدمج')}
+                  className={`flex-1 py-1.5 text-xs font-medium rounded-md transition-colors whitespace-nowrap cursor-pointer ${
+                    selectedMode === 'مدمج'
+                      ? 'bg-emerald-800 text-white shadow-xs'
+                      : 'text-slate-600 hover:text-slate-900'
+                  }`}
+                >
+                  مدمج
                 </button>
               </div>
             </div>
@@ -285,31 +297,60 @@ export const WorkshopsCatalog: React.FC<WorkshopsCatalogProps> = ({
                       {w.title}
                     </h3>
 
-                    {/* Metadata Specs (Mode strictly حضوري or عن بعد) */}
-                    <div className="space-y-1.5 text-xs text-slate-600 mb-4">
+                    {/* Metadata Specs: Date, Duration, and Execution Mode strictly set by doctor upon registration */}
+                    <div className="space-y-2 text-xs text-slate-600 mb-4 bg-slate-50/70 p-3 rounded-xl border border-slate-100">
                       <div className="flex items-start gap-2">
-                        <Clock className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
-                        <span>
-                          <strong className="text-slate-700">الموعد والمدة: </strong>
-                          {w.defaultSchedule} ({w.duration})
-                        </span>
+                        <Clock className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+                        <div>
+                          <strong className="text-slate-800">الموعد والمدة: </strong>
+                          {isRegistered && w.instructor ? (
+                            <span className="font-bold text-emerald-900">
+                              {w.instructor.executionDay ? `${w.instructor.executionDay} - ` : ''}
+                              {w.instructor.confirmedDate}
+                              {w.instructor.executionTime ? ` (${w.instructor.executionTime})` : ''}
+                              {w.instructor.durationHours ? ` · المدة: ${w.instructor.durationHours}` : ''}
+                            </span>
+                          ) : (
+                            <span className="text-slate-400 font-medium">غير محدد</span>
+                          )}
+                        </div>
                       </div>
+
                       <div className="flex items-start gap-2">
-                        <MapPin className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
-                        <span>
-                          <strong className="text-slate-700">نمط التنفيذ: </strong>
-                          <span className={`font-semibold ${w.mode === 'حضوري' ? 'text-emerald-800' : 'text-blue-700'}`}>
-                            {w.mode}
-                          </span>
-                          {' '}({w.location})
-                        </span>
+                        <MapPin className="w-4 h-4 text-emerald-700 shrink-0 mt-0.5" />
+                        <div>
+                          <strong className="text-slate-800">نمط التنفيذ: </strong>
+                          {isRegistered && w.instructor ? (
+                            <span>
+                              <span
+                                className={`inline-flex items-center px-2 py-0.5 rounded-md text-[11px] font-bold ${
+                                  w.instructor.deliveryMode === 'حضوري'
+                                    ? 'bg-emerald-100 text-emerald-800'
+                                    : w.instructor.deliveryMode === 'عن بعد'
+                                    ? 'bg-blue-100 text-blue-800'
+                                    : 'bg-purple-100 text-purple-800'
+                                }`}
+                              >
+                                {w.instructor.deliveryMode}
+                              </span>
+                              {w.instructor.locationOrLink && (
+                                <span className="text-slate-700 font-semibold mr-1.5">
+                                  ({w.instructor.locationOrLink})
+                                </span>
+                              )}
+                            </span>
+                          ) : (
+                            <span className="text-slate-400 font-medium">غير محدد</span>
+                          )}
+                        </div>
                       </div>
+
                       <div className="flex items-start gap-2">
                         <GraduationCap className="w-4 h-4 text-slate-400 shrink-0 mt-0.5" />
-                        <span>
+                        <div>
                           <strong className="text-slate-700">المستهدفون: </strong>
-                          {w.targetAudience}
-                        </span>
+                          <span>{w.targetAudience}</span>
+                        </div>
                       </div>
                     </div>
 

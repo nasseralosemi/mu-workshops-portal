@@ -802,8 +802,8 @@ export function generateSingleFileHtml(): string {
             <h3 class="text-sm font-bold text-slate-900 leading-snug mb-2">\${w.title}</h3>
 
             <div class="text-xs text-slate-500 mb-3 space-y-1">
-              <div><i class="fa-regular fa-clock text-slate-400 ml-1"></i> \${w.defaultSchedule}</div>
-              <div><i class="fa-solid fa-location-dot text-slate-400 ml-1"></i> \${w.location} (<span class="\${w.mode === 'حضوري' ? 'text-emerald-700 font-semibold' : 'text-blue-700 font-semibold'}">\${w.mode}</span>)</div>
+              <div><i class="fa-regular fa-clock text-slate-400 ml-1"></i> <strong class="text-slate-700">الموعد والمدة:</strong> \${isRegistered && w.instructor ? \`\${w.instructor.confirmedDate} \${w.instructor.executionTime ? '(' + w.instructor.executionTime + ')' : ''}\` : '<span class="text-slate-400">غير محدد</span>'}</div>
+              <div><i class="fa-solid fa-location-dot text-slate-400 ml-1"></i> <strong class="text-slate-700">نمط التنفيذ:</strong> \${isRegistered && w.instructor ? \`<span class="font-semibold text-emerald-800">\${w.instructor.deliveryMode}</span> \${w.instructor.locationOrLink ? '(' + w.instructor.locationOrLink + ')' : ''}\` : '<span class="text-slate-400">غير محدد</span>'}</div>
               <div><i class="fa-solid fa-graduation-cap text-slate-400 ml-1"></i> \${w.targetAudience}</div>
             </div>
 

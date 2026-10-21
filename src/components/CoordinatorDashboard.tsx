@@ -81,11 +81,11 @@ export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
 
   const handleExportCsv = () => {
     let csv =
-      'نوع السجل,رمز التوثيق,عنوان الورشة التدريبية,البرنامج الأكاديمي,اسم عضو هيئة التدريس,الرتبة الأكاديمية,القسم,البريد الإلكتروني,رقم الجوال,الموعد المعتمد,نمط التنفيذ,تاريخ القيد,الملاحظات\n';
+      'نوع السجل,رمز التوثيق,عنوان الورشة التدريبية,البرنامج الأكاديمي,اسم عضو هيئة التدريس,الرتبة الأكاديمية,القسم,البريد الإلكتروني,رقم الجوال,اليوم والموعد,التوقيت,المدة بالساعات,نمط ومقر التنفيذ,تاريخ القيد,الملاحظات\n';
 
     registeredWorkshops.forEach((w) => {
       const i = w.instructor!;
-      csv += `"ورشة مسجلة","${i.registrationCode}","${w.title}","${w.programName}","${i.doctorName}","${i.academicRank}","${i.department}","${i.email}","${i.phone}","${i.confirmedDate}","${i.deliveryMode}","${i.registeredAt}","${i.notes || ''}"\n`;
+      csv += `"ورشة مسجلة","${i.registrationCode}","${w.title}","${w.programName}","${i.doctorName}","${i.academicRank}","${i.department}","${i.email}","${i.phone}","${i.executionDay ? i.executionDay + ' ' : ''}${i.confirmedDate}","${i.executionTime || ''}","${i.durationHours || ''}","${i.deliveryMode}${i.locationOrLink ? ' (' + i.locationOrLink + ')' : ''}","${i.registeredAt}","${i.notes || ''}"\n`;
     });
 
     proposals.forEach((p) => {
@@ -360,8 +360,15 @@ export const CoordinatorDashboard: React.FC<CoordinatorDashboardProps> = ({
                           </div>
                         </td>
                         <td className="p-3.5 text-slate-600 whitespace-nowrap">
-                          <span className="block font-medium text-slate-800">{inst.confirmedDate}</span>
-                          <span className="text-[11px] text-emerald-700 font-semibold">{inst.deliveryMode}</span>
+                          <span className="block font-semibold text-slate-900">
+                            {inst.executionDay ? `${inst.executionDay} - ` : ''}{inst.confirmedDate}
+                            {inst.executionTime ? ` (${inst.executionTime})` : ''}
+                          </span>
+                          <span className="text-[11px] text-emerald-800 font-bold block mt-0.5">
+                            {inst.deliveryMode}
+                            {inst.locationOrLink ? ` (${inst.locationOrLink})` : ''}
+                            {inst.durationHours ? ` · المدة: ${inst.durationHours}` : ''}
+                          </span>
                         </td>
                         <td className="p-3.5 text-center whitespace-nowrap">
                           <div className="flex items-center justify-center gap-2">

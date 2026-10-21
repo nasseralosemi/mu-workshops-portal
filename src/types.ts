@@ -11,7 +11,7 @@ export type AcademicProgramId =
   | 'ecom-realestate';
 
 export type Semester = 'الفصل الأول' | 'الفصل الثاني';
-export type DeliveryMode = 'حضوري' | 'عن بعد';
+export type DeliveryMode = 'حضوري' | 'عن بعد' | 'مدمج';
 export type AcademicRank = 'أستاذ دكتور (Professor)' | 'أستاذ مشارك' | 'أستاذ مساعد' | 'محاضر' | 'مدرب / خبير معتمد';
 
 export interface AcademicProgram {
@@ -31,8 +31,12 @@ export interface WorkshopInstructor {
   department: string;
   email: string;
   phone: string;
-  confirmedDate: string;
-  deliveryMode: DeliveryMode;
+  confirmedDate: string; // e.g. "2026-11-05"
+  executionDay?: string; // e.g. "الأربعاء"
+  executionTime?: string; // e.g. "10:00 صباحاً - 12:00 ظهراً"
+  durationHours?: string; // e.g. "3 ساعات تدريبية"
+  deliveryMode: DeliveryMode; // 'حضوري' | 'عن بعد' | 'مدمج'
+  locationOrLink?: string; // e.g. "معمل الحاسب 102" or "رابط منصة تيمز"
   notes?: string;
   registeredAt: string;
   registrationCode: string;
@@ -46,10 +50,10 @@ export interface Workshop {
   programName: string;
   semester: Semester;
   targetAudience: string;
-  duration: string;
-  defaultSchedule: string;
-  mode: DeliveryMode;
-  location: string;
+  duration?: string;
+  defaultSchedule?: string;
+  mode?: DeliveryMode;
+  location?: string;
   topics: string[];
   outcomes: string[];
   professionalCert?: string;
