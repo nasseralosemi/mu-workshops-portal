@@ -2,13 +2,16 @@ export type AcademicProgramId =
   | 'cs-prog'
   | 'data-ai'
   | 'mobile-app'
+  | 'marketing-tourism'
   | 'marketing'
   | 'tourism-hosp'
+  | 'accounting-tax'
+  | 'hr-admin'
+  | 'hr'
   | 'graphic-digital'
   | 'logistics-sc'
-  | 'hr'
-  | 'accounting-tax'
-  | 'ecom-realestate';
+  | 'ecom-realestate'
+  | 'general-tracks';
 
 export type Semester = 'الفصل الأول' | 'الفصل الثاني';
 export type DeliveryMode = 'حضوري' | 'عن بعد' | 'مدمج';

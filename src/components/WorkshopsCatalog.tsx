@@ -47,7 +47,11 @@ export const WorkshopsCatalog: React.FC<WorkshopsCatalogProps> = ({
         w.programName.toLowerCase().includes(q) ||
         w.topics.some((t) => t.toLowerCase().includes(q));
 
-      const matchesProgram = selectedProgram === 'all' || w.programId === selectedProgram;
+      const matchesProgram =
+        selectedProgram === 'all' ||
+        w.programId === selectedProgram ||
+        (selectedProgram === 'marketing-tourism' && (w.programId === 'marketing' || w.programId === 'tourism-hosp')) ||
+        (selectedProgram === 'hr-admin' && w.programId === 'hr');
       const matchesSemester = selectedSemester === 'all' || w.semester === selectedSemester;
       const effectiveMode = w.instructor?.deliveryMode || w.mode;
       const matchesMode = selectedMode === 'all' || effectiveMode === selectedMode;

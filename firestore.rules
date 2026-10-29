@@ -17,11 +17,12 @@ service cloud.firestore {
 
     function isValidWorkshop(data) {
       return data.id is string && data.id.size() <= 128 &&
-             data.code is string && data.code.size() <= 100 &&
              data.title is string && data.title.size() <= 500 &&
-             data.programId is string && data.programId.size() <= 100 &&
-             data.semester is string && data.semester.size() <= 100 &&
-             data.mode is string && data.mode.size() <= 100;
+             (!('code' in data) || (data.code is string && data.code.size() <= 100)) &&
+             (!('programId' in data) || (data.programId is string && data.programId.size() <= 100)) &&
+             (!('programName' in data) || (data.programName is string && data.programName.size() <= 200)) &&
+             (!('semester' in data) || (data.semester is string && data.semester.size() <= 100)) &&
+             (!('mode' in data) || (data.mode is string && data.mode.size() <= 100));
     }
 
     function isValidProposal(data) {

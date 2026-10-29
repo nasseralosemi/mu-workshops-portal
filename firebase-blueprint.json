@@ -22,7 +22,7 @@
         "instructor": { "type": "object", "description": "Registered faculty instructor details" },
         "updatedAt": { "type": "string", "maxLength": 50 }
       },
-      "required": ["id", "code", "title", "programId", "semester", "mode"]
+      "required": ["id", "title"]
     },
     "proposal": {
       "title": "CustomWorkshopProposal",

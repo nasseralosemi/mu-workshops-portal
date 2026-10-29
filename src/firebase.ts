@@ -119,66 +119,82 @@ const DEFAULT_SUPERVISOR_ROLE: RolePermissionDoc = {
   updatedAt: new Date().toISOString(),
 };
 
-// Seed initial database state if collections are completely empty
+// Clean and strip any undefined keys before writing to Firestore
+export function sanitizeDocData<T extends object>(data: T): Record<string, any> {
+  const clean: Record<string, any> = {};
+  for (const [key, val] of Object.entries(data)) {
+    if (val !== undefined) {
+      if (val !== null && typeof val === 'object' && !Array.isArray(val)) {
+        clean[key] = sanitizeDocData(val);
+      } else {
+        clean[key] = val;
+      }
+    }
+  }
+  return clean;
+}
+
+// Seed or synchronize initial database state with complete 68 workshops
 export async function initializeDatabaseSeed(): Promise<void> {
   try {
     // Check if workshops collection has documents
     const workshopsSnap = await getDocs(collection(db, 'workshops'));
+    
+    // Prepare the baseline seeded workshops
+    const seededWorkshops: Workshop[] = INITIAL_WORKSHOPS.map((w, index) => {
+      if (index === 0) {
+        return {
+          ...w,
+          instructor: {
+            doctorName: 'د. عبد العزيز بن سعد الغامدي',
+            academicRank: 'أستاذ مشارك',
+            department: 'البرمجة وعلوم الحاسب وتطوير التطبيقات',
+            email: 'a.alghamdi@mu.edu.sa',
+            phone: '0555123456',
+            confirmedDate: '2026-11-04',
+            executionDay: 'الأربعاء',
+            executionTime: '10:00 ص - 01:00 م',
+            durationHours: '3 ساعات تدريبية',
+            deliveryMode: 'حضوري',
+            locationOrLink: 'معمل الحاسب المتقدم 102',
+            notes: 'تم حجز معمل 102 وتجهيز بيئات الحوسبة السحابية',
+            registeredAt: '19 أكتوبر 2026',
+            registrationCode: 'MU-WRK-4819',
+          },
+        };
+      }
+      if (index === 7) {
+        return {
+          ...w,
+          instructor: {
+            doctorName: 'د. نورة بنت فهد التميمي',
+            academicRank: 'أستاذ مساعد',
+            department: 'التسويق وإدارة السياحة والضيافة',
+            email: 'n.altamimi@mu.edu.sa',
+            phone: '0501239876',
+            confirmedDate: '2026-11-09',
+            executionDay: 'الإثنين',
+            executionTime: '11:00 ص - 01:00 م',
+            durationHours: 'ساعتان تدريبيتان',
+            deliveryMode: 'حضوري',
+            locationOrLink: 'قاعة الابتكار والتسويق 201',
+            notes: 'قاعة الابتكار والتسويق مع شاشات تفاعلية',
+            registeredAt: '18 أكتوبر 2026',
+            registrationCode: 'MU-WRK-9204',
+          },
+        };
+      }
+      return w;
+    });
+
     if (workshopsSnap.empty) {
-      console.log('Seeding initial workshops to Firestore...');
+      console.log('Seeding initial 68 workshops to Firestore...');
       const batch = writeBatch(db);
-
-      const seededWorkshops: Workshop[] = INITIAL_WORKSHOPS.map((w, index) => {
-        if (index === 0) {
-          return {
-            ...w,
-            instructor: {
-              doctorName: 'د. عبد العزيز بن سعد الغامدي',
-              academicRank: 'أستاذ مشارك',
-              department: 'البرمجة وعلوم الحاسب',
-              email: 'a.alghamdi@mu.edu.sa',
-              phone: '0555123456',
-              confirmedDate: '2026-11-04',
-              executionDay: 'الأربعاء',
-              executionTime: '10:00 ص - 01:00 م',
-              durationHours: '3 ساعات تدريبية',
-              deliveryMode: 'حضوري',
-              locationOrLink: 'معمل الحاسب المتقدم 102',
-              notes: 'تم حجز معمل 102 وتجهيز بيئات الحوسبة السحابية',
-              registeredAt: '19 أكتوبر 2026',
-              registrationCode: 'MU-WRK-4819',
-            },
-          };
-        }
-        if (index === 6) {
-          return {
-            ...w,
-            instructor: {
-              doctorName: 'د. نورة بنت فهد التميمي',
-              academicRank: 'أستاذ مساعد',
-              department: 'التسويق',
-              email: 'n.altamimi@mu.edu.sa',
-              phone: '0501239876',
-              confirmedDate: '2026-11-09',
-              executionDay: 'الإثنين',
-              executionTime: '11:00 ص - 01:00 م',
-              durationHours: 'ساعتان تدريبيتان',
-              deliveryMode: 'حضوري',
-              locationOrLink: 'قاعة الابتكار والتسويق 201',
-              notes: 'قاعة الابتكار والتسويق مع شاشات تفاعلية',
-              registeredAt: '18 أكتوبر 2026',
-              registrationCode: 'MU-WRK-9204',
-            },
-          };
-        }
-        return w;
-      });
-
       for (const w of seededWorkshops) {
-        batch.set(doc(db, 'workshops', w.id), {
+        batch.set(doc(db, 'workshops', w.id), sanitizeDocData({
           ...w,
           updatedAt: new Date().toISOString(),
-        });
+        }));
       }
 
       // Seed default proposal
@@ -199,25 +215,56 @@ export async function initializeDatabaseSeed(): Promise<void> {
         specialRequirements: 'معمل أجهزة حاسوب متصلة بالإنترنت السريع.',
         submittedAt: '17 أكتوبر 2026',
       };
-      batch.set(doc(db, 'proposals', sampleProposal.id), {
+      batch.set(doc(db, 'proposals', sampleProposal.id), sanitizeDocData({
         ...sampleProposal,
         status: 'pending',
-      });
+      }));
 
       // Seed default role permission
-      batch.set(doc(db, 'rolePermissions', DEFAULT_SUPERVISOR_ROLE.roleId), DEFAULT_SUPERVISOR_ROLE);
+      batch.set(doc(db, 'rolePermissions', DEFAULT_SUPERVISOR_ROLE.roleId), sanitizeDocData(DEFAULT_SUPERVISOR_ROLE));
 
       // Seed connection test doc
-      batch.set(doc(db, 'systemSettings', 'connection'), {
+      batch.set(doc(db, 'systemSettings', 'connection'), sanitizeDocData({
         status: 'online',
         databaseId: firebaseConfig.firestoreDatabaseId,
         projectId: firebaseConfig.projectId,
         lastSynced: new Date().toISOString(),
-      });
+      }));
 
       await batch.commit();
       console.log('Firebase Firestore initialized successfully with online records.');
     } else {
+      // Check for any workshops not yet stored in Firestore and upsert them
+      const existingDocsMap = new Map(workshopsSnap.docs.map((d) => [d.id, d.data()]));
+      const batch = writeBatch(db);
+      let updatesCount = 0;
+
+      for (const w of seededWorkshops) {
+        const existingData = existingDocsMap.get(w.id);
+        if (!existingData) {
+          batch.set(doc(db, 'workshops', w.id), sanitizeDocData({
+            ...w,
+            updatedAt: new Date().toISOString(),
+          }));
+          updatesCount++;
+        } else if (existingData.programName !== w.programName || existingData.programId !== w.programId) {
+          batch.update(doc(db, 'workshops', w.id), sanitizeDocData({
+            programName: w.programName,
+            programId: w.programId,
+            title: w.title,
+            topics: w.topics,
+            outcomes: w.outcomes,
+            updatedAt: new Date().toISOString(),
+          }));
+          updatesCount++;
+        }
+      }
+
+      if (updatesCount > 0) {
+        console.log(`Syncing ${updatesCount} workshop updates to Firestore...`);
+        await batch.commit();
+      }
+
       // Ensure role permission document exists
       try {
         await setDoc(doc(db, 'rolePermissions', DEFAULT_SUPERVISOR_ROLE.roleId), DEFAULT_SUPERVISOR_ROLE, { merge: true });
@@ -308,10 +355,10 @@ export function subscribeToRolePermissions(
 export async function saveWorkshopToFirestore(workshop: Workshop): Promise<void> {
   const path = `workshops/${workshop.id}`;
   try {
-    await setDoc(doc(db, 'workshops', workshop.id), {
+    await setDoc(doc(db, 'workshops', workshop.id), sanitizeDocData({
       ...workshop,
       updatedAt: new Date().toISOString(),
-    });
+    }));
   } catch (error) {
     handleFirestoreError(error, OperationType.WRITE, path);
     throw error;

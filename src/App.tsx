@@ -32,22 +32,14 @@ import {
 export default function App() {
   // Workshops state with local storage fallback
   const [workshops, setWorkshops] = useState<Workshop[]>(() => {
-    try {
-      const saved = localStorage.getItem('mu_workshops_data');
-      if (saved) {
-        return JSON.parse(saved);
-      }
-    } catch (e) {
-      console.warn('Could not read from localStorage', e);
-    }
-    // Seed with initial certified instructors
+    // Prepare baseline seeded workshops
     const seeded = [...INITIAL_WORKSHOPS];
     seeded[0] = {
       ...seeded[0],
       instructor: {
         doctorName: 'د. عبد العزيز بن سعد الغامدي',
         academicRank: 'أستاذ مشارك',
-        department: 'البرمجة وعلوم الحاسب',
+        department: 'البرمجة وعلوم الحاسب وتطوير التطبيقات',
         email: 'a.alghamdi@mu.edu.sa',
         phone: '0555123456',
         confirmedDate: '2026-11-04',
@@ -61,12 +53,12 @@ export default function App() {
         registrationCode: 'MU-WRK-4819',
       },
     };
-    seeded[6] = {
-      ...seeded[6],
+    seeded[7] = {
+      ...seeded[7],
       instructor: {
         doctorName: 'د. نورة بنت فهد التميمي',
         academicRank: 'أستاذ مساعد',
-        department: 'التسويق',
+        department: 'التسويق وإدارة السياحة والضيافة',
         email: 'n.altamimi@mu.edu.sa',
         phone: '0501239876',
         confirmedDate: '2026-11-09',
@@ -80,6 +72,28 @@ export default function App() {
         registrationCode: 'MU-WRK-9204',
       },
     };
+
+    try {
+      const saved = localStorage.getItem('mu_workshops_data');
+      if (saved) {
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          const savedMap = new Map(parsed.map((w: Workshop) => [w.id, w]));
+          const merged = seeded.map((w) => {
+            const savedItem = savedMap.get(w.id);
+            if (savedItem && savedItem.instructor) {
+              return { ...w, instructor: savedItem.instructor };
+            }
+            return w;
+          });
+          const seededIds = new Set(seeded.map((w) => w.id));
+          const extraUser = parsed.filter((w: Workshop) => !seededIds.has(w.id));
+          return [...merged, ...extraUser];
+        }
+      }
+    } catch (e) {
+      console.warn('Could not read from localStorage', e);
+    }
     return seeded;
   });
 
@@ -149,9 +163,20 @@ export default function App() {
         unsubscribeWorkshops = subscribeToWorkshops(
           (cloudWorkshops) => {
             if (cloudWorkshops && cloudWorkshops.length > 0) {
-              setWorkshops(cloudWorkshops);
+              const cloudMap = new Map(cloudWorkshops.map((w) => [w.id, w]));
+              const merged = INITIAL_WORKSHOPS.map((initW) => {
+                const cloudItem = cloudMap.get(initW.id);
+                if (cloudItem && cloudItem.instructor) {
+                  return { ...initW, instructor: cloudItem.instructor };
+                }
+                return initW;
+              });
+              const initIds = new Set(INITIAL_WORKSHOPS.map((w) => w.id));
+              const extraCloud = cloudWorkshops.filter((w) => !initIds.has(w.id));
+              const allCombined = [...merged, ...extraCloud];
+              setWorkshops(allCombined);
               try {
-                localStorage.setItem('mu_workshops_data', JSON.stringify(cloudWorkshops));
+                localStorage.setItem('mu_workshops_data', JSON.stringify(allCombined));
               } catch {}
             }
             setCloudStatus('online');
@@ -226,7 +251,10 @@ export default function App() {
   const workshopsCountByProgram = useMemo(() => {
     const counts: Record<string, number> = {};
     workshops.forEach((w) => {
-      counts[w.programId] = (counts[w.programId] || 0) + 1;
+      let pId = w.programId;
+      if (pId === 'marketing' || pId === 'tourism-hosp') pId = 'marketing-tourism';
+      if (pId === 'hr') pId = 'hr-admin';
+      counts[pId] = (counts[pId] || 0) + 1;
     });
     return counts as Record<AcademicProgramId, number>;
   }, [workshops]);
