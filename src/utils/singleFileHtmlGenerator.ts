@@ -619,11 +619,7 @@ export function generateSingleFileHtml(): string {
     let PROPOSALS = [];
     let isSupervisorUnlocked = false;
 
-    // Seed 2 default registrations
-    WORKSHOPS[0].instructor = { doctorName: 'د. عبد العزيز بن سعد الغامدي', academicRank: 'أستاذ مشارك', department: 'البرمجة وعلوم الحاسب', email: 'a.alghamdi@mu.edu.sa', phone: '0555123456', confirmedDate: WORKSHOPS[0].defaultSchedule, deliveryMode: 'حضوري', registrationCode: 'MU-WRK-4819' };
-    if (WORKSHOPS[6]) {
-      WORKSHOPS[6].instructor = { doctorName: 'د. نورة بنت فهد التميمي', academicRank: 'أستاذ مساعد', department: 'التسويق', email: 'n.altamimi@mu.edu.sa', phone: '0501239876', confirmedDate: WORKSHOPS[6].defaultSchedule, deliveryMode: 'حضوري', registrationCode: 'MU-WRK-9204' };
-    }
+    // WORKSHOPS contains current platform workshops as passed from state
 
     function playChime() {
       try {

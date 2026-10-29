@@ -32,69 +32,28 @@ import {
 export default function App() {
   // Workshops state with local storage fallback
   const [workshops, setWorkshops] = useState<Workshop[]>(() => {
-    // Prepare baseline seeded workshops
-    const seeded = [...INITIAL_WORKSHOPS];
-    seeded[0] = {
-      ...seeded[0],
-      instructor: {
-        doctorName: 'د. عبد العزيز بن سعد الغامدي',
-        academicRank: 'أستاذ مشارك',
-        department: 'البرمجة وعلوم الحاسب وتطوير التطبيقات',
-        email: 'a.alghamdi@mu.edu.sa',
-        phone: '0555123456',
-        confirmedDate: '2026-11-04',
-        executionDay: 'الأربعاء',
-        executionTime: '10:00 ص - 01:00 م',
-        durationHours: '3 ساعات تدريبية',
-        deliveryMode: 'حضوري',
-        locationOrLink: 'معمل الحاسب المتقدم 102',
-        notes: 'تم حجز معمل 102 وتجهيز بيئات الحوسبة السحابية',
-        registeredAt: '19 أكتوبر 2026',
-        registrationCode: 'MU-WRK-4819',
-      },
-    };
-    seeded[7] = {
-      ...seeded[7],
-      instructor: {
-        doctorName: 'د. نورة بنت فهد التميمي',
-        academicRank: 'أستاذ مساعد',
-        department: 'التسويق وإدارة السياحة والضيافة',
-        email: 'n.altamimi@mu.edu.sa',
-        phone: '0501239876',
-        confirmedDate: '2026-11-09',
-        executionDay: 'الإثنين',
-        executionTime: '11:00 ص - 01:00 م',
-        durationHours: 'ساعتان تدريبيتان',
-        deliveryMode: 'حضوري',
-        locationOrLink: 'قاعة الابتكار والتسويق 201',
-        notes: 'قاعة الابتكار والتسويق مع شاشات تفاعلية',
-        registeredAt: '18 أكتوبر 2026',
-        registrationCode: 'MU-WRK-9204',
-      },
-    };
-
     try {
       const saved = localStorage.getItem('mu_workshops_data');
       if (saved) {
         const parsed = JSON.parse(saved);
         if (Array.isArray(parsed) && parsed.length > 0) {
           const savedMap = new Map(parsed.map((w: Workshop) => [w.id, w]));
-          const merged = seeded.map((w) => {
+          const merged = INITIAL_WORKSHOPS.map((w) => {
             const savedItem = savedMap.get(w.id);
             if (savedItem && savedItem.instructor) {
-              return { ...w, instructor: savedItem.instructor };
+              return { ...w, ...savedItem };
             }
             return w;
           });
-          const seededIds = new Set(seeded.map((w) => w.id));
-          const extraUser = parsed.filter((w: Workshop) => !seededIds.has(w.id));
+          const initIds = new Set(INITIAL_WORKSHOPS.map((w) => w.id));
+          const extraUser = parsed.filter((w: Workshop) => !initIds.has(w.id));
           return [...merged, ...extraUser];
         }
       }
     } catch (e) {
       console.warn('Could not read from localStorage', e);
     }
-    return seeded;
+    return INITIAL_WORKSHOPS;
   });
 
   // Proposals state with local storage fallback
@@ -105,25 +64,7 @@ export default function App() {
     } catch (e) {
       console.warn('Could not read proposals from localStorage', e);
     }
-    return [
-      {
-        id: 'prop-sample-1',
-        proposalCode: 'MU-PROP-8371',
-        facultyName: 'د. خالد بن محمد السعيد',
-        academicRank: 'أستاذ مساعد',
-        department: 'تحليل البيانات والذكاء الاصطناعي',
-        email: 'k.alsaeed@mu.edu.sa',
-        phone: '0544882211',
-        workshopTitle: 'أتمتة العمليات التجارية باستخدام وكلاء الذكاء الاصطناعي AI Agents',
-        semester: 'الفصل الثاني',
-        deliveryMode: 'حضوري',
-        targetAudience: 'طلاب تحليل البيانات وعلوم الحاسب',
-        topics: 'مقدمة عن وكلاء الذكاء الاصطناعي المستقلين، بناء وكيل باستخدام LangChain، وربطه بقواعد البيانات والبريد.',
-        expectedOutcomes: 'إتقان برمجة وكيل ذكي ينجز مهام مكتبية معقدة بصورة ذاتية.',
-        specialRequirements: 'معمل أجهزة حاسوب متصلة بالإنترنت السريع.',
-        submittedAt: '17 أكتوبر 2026',
-      },
-    ];
+    return [];
   });
 
   // Firebase Real-time and Cloud connection state
@@ -167,7 +108,7 @@ export default function App() {
               const merged = INITIAL_WORKSHOPS.map((initW) => {
                 const cloudItem = cloudMap.get(initW.id);
                 if (cloudItem && cloudItem.instructor) {
-                  return { ...initW, instructor: cloudItem.instructor };
+                  return { ...initW, ...cloudItem };
                 }
                 return initW;
               });

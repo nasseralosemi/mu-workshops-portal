@@ -9,10 +9,12 @@ import {
   getFirestore,
   collection,
   doc,
+  getDoc,
   getDocs,
   getDocFromServer,
   setDoc,
   deleteDoc,
+  deleteField,
   onSnapshot,
   writeBatch,
 } from 'firebase/firestore';
@@ -134,91 +136,21 @@ export function sanitizeDocData<T extends object>(data: T): Record<string, any> 
   return clean;
 }
 
-// Seed or synchronize initial database state with complete 68 workshops
+// Synchronize and initialize baseline database state with complete 68 workshops without any mock demo data
 export async function initializeDatabaseSeed(): Promise<void> {
   try {
     // Check if workshops collection has documents
     const workshopsSnap = await getDocs(collection(db, 'workshops'));
-    
-    // Prepare the baseline seeded workshops
-    const seededWorkshops: Workshop[] = INITIAL_WORKSHOPS.map((w, index) => {
-      if (index === 0) {
-        return {
-          ...w,
-          instructor: {
-            doctorName: 'د. عبد العزيز بن سعد الغامدي',
-            academicRank: 'أستاذ مشارك',
-            department: 'البرمجة وعلوم الحاسب وتطوير التطبيقات',
-            email: 'a.alghamdi@mu.edu.sa',
-            phone: '0555123456',
-            confirmedDate: '2026-11-04',
-            executionDay: 'الأربعاء',
-            executionTime: '10:00 ص - 01:00 م',
-            durationHours: '3 ساعات تدريبية',
-            deliveryMode: 'حضوري',
-            locationOrLink: 'معمل الحاسب المتقدم 102',
-            notes: 'تم حجز معمل 102 وتجهيز بيئات الحوسبة السحابية',
-            registeredAt: '19 أكتوبر 2026',
-            registrationCode: 'MU-WRK-4819',
-          },
-        };
-      }
-      if (index === 7) {
-        return {
-          ...w,
-          instructor: {
-            doctorName: 'د. نورة بنت فهد التميمي',
-            academicRank: 'أستاذ مساعد',
-            department: 'التسويق وإدارة السياحة والضيافة',
-            email: 'n.altamimi@mu.edu.sa',
-            phone: '0501239876',
-            confirmedDate: '2026-11-09',
-            executionDay: 'الإثنين',
-            executionTime: '11:00 ص - 01:00 م',
-            durationHours: 'ساعتان تدريبيتان',
-            deliveryMode: 'حضوري',
-            locationOrLink: 'قاعة الابتكار والتسويق 201',
-            notes: 'قاعة الابتكار والتسويق مع شاشات تفاعلية',
-            registeredAt: '18 أكتوبر 2026',
-            registrationCode: 'MU-WRK-9204',
-          },
-        };
-      }
-      return w;
-    });
 
     if (workshopsSnap.empty) {
-      console.log('Seeding initial 68 workshops to Firestore...');
+      console.log('Seeding initial 68 clean workshops to Firestore...');
       const batch = writeBatch(db);
-      for (const w of seededWorkshops) {
+      for (const w of INITIAL_WORKSHOPS) {
         batch.set(doc(db, 'workshops', w.id), sanitizeDocData({
           ...w,
           updatedAt: new Date().toISOString(),
         }));
       }
-
-      // Seed default proposal
-      const sampleProposal: CustomWorkshopProposal = {
-        id: 'prop-sample-1',
-        proposalCode: 'MU-PROP-8371',
-        facultyName: 'د. خالد بن محمد السعيد',
-        academicRank: 'أستاذ مساعد',
-        department: 'تحليل البيانات والذكاء الاصطناعي',
-        email: 'k.alsaeed@mu.edu.sa',
-        phone: '0544882211',
-        workshopTitle: 'أتمتة العمليات التجارية باستخدام وكلاء الذكاء الاصطناعي AI Agents',
-        semester: 'الفصل الثاني',
-        deliveryMode: 'حضوري',
-        targetAudience: 'طلاب تحليل البيانات وعلوم الحاسب',
-        topics: 'مقدمة عن وكلاء الذكاء الاصطناعي المستقلين، بناء وكيل باستخدام LangChain، وربطه بقواعد البيانات والبريد.',
-        expectedOutcomes: 'إتقان برمجة وكيل ذكي ينجز مهام مكتبية معقدة بصورة ذاتية.',
-        specialRequirements: 'معمل أجهزة حاسوب متصلة بالإنترنت السريع.',
-        submittedAt: '17 أكتوبر 2026',
-      };
-      batch.set(doc(db, 'proposals', sampleProposal.id), sanitizeDocData({
-        ...sampleProposal,
-        status: 'pending',
-      }));
 
       // Seed default role permission
       batch.set(doc(db, 'rolePermissions', DEFAULT_SUPERVISOR_ROLE.roleId), sanitizeDocData(DEFAULT_SUPERVISOR_ROLE));
@@ -232,38 +164,48 @@ export async function initializeDatabaseSeed(): Promise<void> {
       }));
 
       await batch.commit();
-      console.log('Firebase Firestore initialized successfully with online records.');
+      console.log('Firebase Firestore initialized successfully with clean workshops.');
     } else {
-      // Check for any workshops not yet stored in Firestore and upsert them
+      // Check for any missing workshops in Firestore and clean any legacy mock demo instructors
       const existingDocsMap = new Map(workshopsSnap.docs.map((d) => [d.id, d.data()]));
       const batch = writeBatch(db);
       let updatesCount = 0;
 
-      for (const w of seededWorkshops) {
+      for (const w of INITIAL_WORKSHOPS) {
         const existingData = existingDocsMap.get(w.id);
         if (!existingData) {
+          // Add missing workshop
           batch.set(doc(db, 'workshops', w.id), sanitizeDocData({
             ...w,
             updatedAt: new Date().toISOString(),
           }));
           updatesCount++;
-        } else if (existingData.programName !== w.programName || existingData.programId !== w.programId) {
-          batch.update(doc(db, 'workshops', w.id), sanitizeDocData({
-            programName: w.programName,
-            programId: w.programId,
-            title: w.title,
-            topics: w.topics,
-            outcomes: w.outcomes,
-            updatedAt: new Date().toISOString(),
-          }));
-          updatesCount++;
+        } else {
+          // If the workshop was holding legacy demo seed names, remove them to keep genuine data only
+          const instructorName = existingData.instructor?.doctorName;
+          if (instructorName === 'د. عبد العزيز بن سعد الغامدي' || instructorName === 'د. نورة بنت فهد التميمي') {
+            batch.update(doc(db, 'workshops', w.id), {
+              instructor: deleteField(),
+              updatedAt: new Date().toISOString(),
+            });
+            updatesCount++;
+          }
         }
       }
 
       if (updatesCount > 0) {
-        console.log(`Syncing ${updatesCount} workshop updates to Firestore...`);
+        console.log(`Syncing ${updatesCount} workshop baseline updates to Firestore...`);
         await batch.commit();
       }
+
+      // Remove legacy mock proposal if still present
+      try {
+        const mockPropRef = doc(db, 'proposals', 'prop-sample-1');
+        const mockPropSnap = await getDoc(mockPropRef);
+        if (mockPropSnap.exists()) {
+          await deleteDoc(mockPropRef);
+        }
+      } catch {}
 
       // Ensure role permission document exists
       try {
